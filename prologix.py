@@ -12,6 +12,9 @@ reference:
 2. https://bitbucket.org/martijnj/telepythic Copyright 2014 by Martijn Jasperse
 
 '''
+'''
+version
+'''
 
 import time
 from TCPinterface import TCP
