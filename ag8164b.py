@@ -4,6 +4,9 @@
 
 __author__ = 'Sizhan Liu'
 __version__ = "1.0"
+'''
+first version of github
+'''
 
 '''
 Driver for Agilent Technologies,8164B
