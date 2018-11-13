@@ -85,13 +85,13 @@ class channel(object):
         idx_L = self.find_nearest_index(self.data_freq, freq_R)
         idx_R = self.find_nearest_index(self.data_freq, freq_L)
         
-        wave_list = self.data_wavelength[idx_L:idx_R+1]
-#        wave_list_poly = wave_list - 1550
+        wave_list = self.data_wavelength[idx_L:idx_R + 1]
+        wave_list_poly = wave_list - self._channel_plan_wavelength
         gd_list = self.data_GD[idx_L:idx_R + 1] 
         
-        polynomial = np.polyfit(wave_list, gd_list, order)
+        polynomial = np.polyfit(wave_list_poly, gd_list, order)
         p1 = np.poly1d(polynomial)
-        gd_list_poly = p1(wave_list)
+        gd_list_poly = p1(wave_list_poly)
         
         
         gdr_list = gd_list - gd_list_poly
@@ -107,7 +107,7 @@ class channel(object):
         elif order == 2:
             return polynomial[1], gdr
         else:
-            print()
+            print('fail')
  
     @property
     def freq_shift(self):
