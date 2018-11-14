@@ -40,14 +40,13 @@ class channel(object):
         
             
         self.freq_cen_idx = self.find_nearest_index(self.data_freq, self._channel_plan_center)
+        self.freq_cen_val = self.data_freq[self.freq_cen_idx]
+        self.freq_cen_il_val = self.data_IL[self.freq_cen_idx]
         
         self.freq_sp_L_val = self._channel_plan_center - self._sp
         self.freq_sp_R_val = self._channel_plan_center + self._sp
         self.freq_sp_R_idx = self.find_nearest_index(self.data_freq, self.freq_sp_L_val)
         self.freq_sp_L_idx = self.find_nearest_index(self.data_freq, self.freq_sp_R_val)
-        
-        self.freq_cen_val = self.data_freq[self.freq_cen_idx]
-        self.freq_cen_il_val = self.data_IL[self.freq_cen_idx]
     
     
     def channel_parameter(self):
@@ -152,8 +151,8 @@ class channel(object):
         Get current channel cross talk for all channels
         '''
         xtalk = []
-        freq_L = self._channel_plan_center - 9
-        freq_R = self._channel_plan_center + 9
+        freq_L = self._channel_plan_center - band
+        freq_R = self._channel_plan_center + band
         
         for i in self._channle_id_list:
             
