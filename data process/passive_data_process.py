@@ -172,34 +172,51 @@ class channel(object):
         xtalk = self.optical_xtalk(passband)
         #channel_id = [int(x) for x in channel_id_list ]
         
-        current_idx = self._channel_num - 1
+        current_chn_idx = self._channel_num - 1
+        first_chn_idx = first_chn - 1
+        last_chn_idx = last_chn - 1
         
-        adj_chn_L = current_idx - 1
-        adj_cha_R = current_idx + 1 
+        adj_chn_L_idx = current_chn_idx - 1
+        adj_chn_R_idx = current_chn_idx + 1 
         
-        n_adj_chn_L = current_idx - 2
-        n_adj_chn_R = current_idx + 2
+        n_adj_chn_L_idx = current_chn_idx - 2
+        n_adj_chn_R_idx = current_chn_idx + 2
         
-        adj_xtalk = []
-        if adj_chn_L >= 0:
-            adj_xtalk.append(xtalk[adj_chn_L])
+        adj_xtalk = 0
+        n_adj_xtalk = 0
+        
+        if adj_chn_L_idx < first_chn_idx :
+            adj_xtalk_L = None
+            adj_xtalk_R = xtalk[adj_chn_R_idx]
+            adj_xtalk = adj_xtalk_R
+
+        elif adj_chn_R_idx > last_chn_idx :
+            adj_xtalk_L = xtalk[adj_chn_L_idx]
+            adj_xtalk_R = None
+            adj_xtalk = adj_xtalk_L
         else:
-            pass
-        
-        if adj_cha_R<=63:
-            adj_xtalk.append(xtalk[adj_cha_R])
+            adj_xtalk_L = xtalk[adj_chn_L_idx]
+            adj_xtalk_R = xtalk[adj_chn_R_idx]
+            adj_xtalk = np.max([adj_xtalk_L, adj_xtalk_R])
+            
+        if n_adj_chn_L_idx < first_chn_idx:
+            n_adj_xtalk_L = None
+            n_adj_xtalk_R = np.max(xtalk[n_adj_chn_R_idx:(last_chn_idx+1)])
+            n_adj_xtalk = n_adj_xtalk_R
+
+        elif n_adj_chn_R_idx > last_chn_idx:
+            n_adj_xtalk_L = np.max(xtalk[first_chn_idx: n_adj_chn_L_idx+1])
+            n_adj_xtalk_R = None
+            n_adj_xtalk = n_adj_xtalk_L
         else:
-            pass
+            n_adj_xtalk_L = np.max(xtalk[first_chn_idx:n_adj_chn_L_idx+1])
+            n_adj_xtalk_R = np.max(xtalk[n_adj_chn_R_idx:last_chn_idx+1])
+            n_adj_xtalk = np.max([n_adj_xtalk_L, n_adj_xtalk_R])
         
-        adj_nxtalk = []
-        if n_adj_chn_L>=0:
-            adj_nxtalk.append(np.max(xtalk[0:(n_adj_chn_L+1)]))
-        else:
-            pass
-        if n_adj_chn_R <= 63:
-            adj_nxtalk.append(np.max(xtalk[n_adj_chn_R:64]))
-       
-        return np.max(adj_xtalk), np.max(adj_nxtalk)
+        adj_xtalk = self.freq_cen_il_val - adj_xtalk
+        n_adj_xtalk = self.freq_cen_il_val - n_adj_xtalk
+      
+        return adj_xtalk, n_adj_xtalk
         
         
 
