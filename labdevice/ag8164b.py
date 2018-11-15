@@ -17,6 +17,9 @@ class AG8164B(object):
     Driver for AG8164B, attenuator and power meter.
     '''
     def __init__(self, GPIBaddress, interface):
+        '''
+        interface is a prologix case
+        '''
         self._gpibaddress = GPIBaddress
         self.dev = interface
 

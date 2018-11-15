@@ -18,6 +18,9 @@ class MS9710B(object):
     Driver for MS9710B, Optical Spectrum Analyser.
     '''
     def __init__(self, GPIBaddress, interface):
+        '''
+        interface is a prologix case
+        '''
         self._gpibaddress = GPIBaddress
         self.dev = interface
 
