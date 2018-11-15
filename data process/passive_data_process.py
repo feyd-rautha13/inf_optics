@@ -5,7 +5,7 @@
 Created on Sat Nov 10 15:46:53 2018
 Modified on __________
 
-Data process for passive component.
+Data process for multichannel passive component.
 """
 
 __author__ = 'Sizhan Liu'
