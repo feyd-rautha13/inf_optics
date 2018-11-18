@@ -16,7 +16,7 @@ import telnetlib
 import time
 
 class telnet(object):
-    def __init__(self, host = '172.29.150.93', port = '11066', username = None, password = None):
+    def __init__(self, host = '172.29.150.93', port = '11067', username=None, password=None):
         
         self._host = host
         self._port = port
@@ -39,6 +39,8 @@ class telnet(object):
     def read_raw(self):
         data = self.tn.read_some()
         return data
+
+
     
 '''
 ont603
@@ -54,30 +56,58 @@ Query possible device
 :INST:CONF:EDIT:OPEN ON   开始编辑
 
 :INST:CONF:EDIT:LAY:STAC?
+:INST:CONF:EDIT:LAY:STAC PHYS                 #Unframered Bert
+:INST:CONF:EDIT:LAY:STAC PHYS_OTL4_OTN        #OTU4
+:INST:CONF:EDIT:LAY:STAC PHYS_PCSL_MAC        #100GBE LR4
+:INST:CONF:EDIT:LAY:STAC PHYS_SR4FEC_PCSL_MAC #100G SR4
 
-unframed bert = PHYS
-100G_SR4 = PHYS_SR4FEC_PCSL_MAC
-100G_LR4 = PHYS_PCSL_MAC
-OTU4 = PHYS_OTL4_OTN
-eg.
-
-:INST:CONF:EDIT:LAY:STAC PHYS_OTL4_OTN
 
 :INST:CONF:EDIT:APPL ON  应用
 
-#########################
-
-:ETIM? #持续时间
-:ABOR;*WAI;:INIT:IMM:ALL;*WAI # 点Start
-
 #######--Unframered bert 配置--###########
-
+测试数据配置
 :SENS:DATA:TEL:PHYS:LINE:RATE?
 :SENS:DATA:TEL:PHYS:LINE:RATE OTU3_E1
 :SENS:DATA:TEL:PHYS:LINE:RATE ETH_40G
 :SENS:DATA:TEL:PHYS:LINE:RATE OTU4
 :SENS:DATA:TEL:PHYS:LINE:RATE ETH_100G
 :SENS:DATA:TEL:PHYS:LINE:RATE OTU4
+
+
+
+######################--40/100GBE 测试--####################
+
+:SENS:DATA:TEL:PHYS:LINE:RATE?
+:SENS:DATA:TEL:PHYS:LINE:RATE ETH_100G
+:SENS:DATA:TEL:PHYS:LINE:RATE ETH_40G
+
+
+:PHYS:PAYL:ALL:ASEC:LSS:BLOC?  #LOS 检测
+
+#################--QSFP28 表现---##########################
+打到High Power模式
+:SOUR:DATA:TEL:PHYS:QSFP28:HIGH:POW:CL?
+:SOUR:DATA:TEL:PHYS:QSFP28:HIGH:POW:CL ON
+:SOUR:DATA:TEL:PHYS:QSFP28:HIGH:POW:CL OFF
+
+:PHYS:TX:QSFP28:MSA:VEND:PNUM? #模块PN
+:PHYS:TX:QSFP28:MSA:VEND:SNUM? #模块SN
+
+I2C 速度
+:SOUR:DATA:TEL:PHYS:CFP:MDIO:SPD?
+:SOUR:DATA:TEL:PHYS:CFP:MDIO:SPD SLOW
+:SOUR:DATA:TEL:PHYS:CFP:MDIO:SPD NORMAL
+:SOUR:DATA:TEL:PHYS:CFP:MDIO:SPD FAST
+
+Tx端
+:OUTP:TEL:PHYS:LINE:OPT:STAT?
+:OUTP:TEL:PHYS:LINE:OPT:STAT ON #光模块开光
+:OUTP:TEL:PHYS:LINE:OPT:STAT OFF
+
+Rx 端 
+:PHYS:PAYL:ALL:ASEC:LSS:BLOC?  #LOS
+:PHYS:PAYL:ALL:ECO:BIT:BLOC?   #误码数
+:PHYS:PAYL:ALL:ERAT:BIT:BLOC?  #误码率
 
 
 #############-traffic full load 配置-###############
@@ -93,4 +123,11 @@ eg.
 配成100%
 :SOUR:DATA:TEL:MAC:TRAF:BAND:USER:PERC?
 :SOUR:DATA:TEL:MAC:TRAF:BAND:USER:PERC 100
+
+########## 点开始测试   ###########
+
+:INIT:IMM:ALL;*WAI              # 点Start
+:ABOR;*WAI                      #点stop
+:ABOR;*WAI;:INIT:IMM:ALL;*WAI   #刷新
+:ETIM? #持续时间 微秒
 '''
