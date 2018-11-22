@@ -12,7 +12,7 @@ __author__ = 'Sizhan Liu'
 __version__ = "1.0"
 
 import numpy as np
-import pylab as pl
+#import pylab as pl
 
 
 class channel(object):
@@ -213,10 +213,10 @@ class channel(object):
             n_adj_xtalk_R = np.max(xtalk[n_adj_chn_R_idx:last_chn_idx+1])
             n_adj_xtalk = np.max([n_adj_xtalk_L, n_adj_xtalk_R])
         
-        adj_xtalk = self.freq_cen_il_val - adj_xtalk
-        n_adj_xtalk = self.freq_cen_il_val - n_adj_xtalk
+        adj_xtalk1 = self.freq_cen_il_val - adj_xtalk
+        n_adj_xtalk1 = self.freq_cen_il_val - n_adj_xtalk
       
-        return adj_xtalk, n_adj_xtalk
+        return adj_xtalk1, n_adj_xtalk1
         
         
 
