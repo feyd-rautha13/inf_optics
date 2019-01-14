@@ -1,2 +1,16 @@
-# inf_optics
-想写啥就写啥
+# Inf optics test code
+ ---
+
+
+#BUS
+##socket
+##ssh
+##telnet
+
+
+
+
+
+$$ 
+y(x) = \int_{-\infty}^{+\infty} x(\tau)h(t-\tau) d\tau
+$$
