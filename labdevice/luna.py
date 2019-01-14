@@ -30,7 +30,7 @@ class Luna(TCP):
         '''Setup a remote connection for OVA5000'''
         self._host = host
         self._port = port
-        TCP.__init__(self, self._host, self._port)
+        super().__init__(self._host, self._port)
         time.sleep(1)
        
         command = "*CLS"
@@ -49,6 +49,7 @@ class Luna(TCP):
         '''Close remote connection for OVA5000'''
         self.write("*QUIT")
         self.TCP_close()
+        print(__class__.__name__() + 'had been closed!')
 
 ########## --data parse for luna only -- ###############
     def data_pasre(self, command):

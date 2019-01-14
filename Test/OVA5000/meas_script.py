@@ -5,7 +5,7 @@
 __author__ = 'sizhan Liu'
 __version__ = '1.0'
 
-from luna import Luna
+from OVA5000 import Luna
 import time
 
 #device IP

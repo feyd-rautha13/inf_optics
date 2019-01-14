@@ -27,7 +27,7 @@ class Prologix(TCP):
         
         self._host = host
         self._port = port
-        TCP.__init__(self, self._host, self._port)
+        super().__init__(self._host, self._port)
         time.sleep(1)
 
         # set prologix as controller mode
