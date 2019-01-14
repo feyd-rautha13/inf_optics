@@ -5,6 +5,10 @@
 __author__ = 'sizhan Liu'
 __version__ = '1.0'
 
+import sys
+sys.path.append('D:\work\coding\python\inf_optics\interface')
+sys.path.append('D:\work\coding\python\inf_optics\labdevice')
+
 from OVA5000 import Luna
 import time
 
