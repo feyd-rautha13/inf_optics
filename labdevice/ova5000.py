@@ -8,20 +8,23 @@ __version__ = "1.0"
 Luna OVA5000 interface
 '''
 
+import sys
+sys.path.append('D:\\work\\coding\\python\\inf_optics\\interface\\')
+
 import time
 from TCPinterface import TCP
 
 # debug only
 # luna = Luna(ip['host'], ip['port'])
-ip = {
-    'host' : "10.13.51.47", 
-    'port' : 1
-    }
+#ip = {
+#    'host' : "10.13.51.47", 
+#    'port' : 1
+#    }
 
-testplan = {
-    'center': {'C':1549.0,'C+L':1569.0},
-    'range':{'C': 41.67,'C+L':85.69}
-    }
+#testplan = {
+#    'center': {'C':1549.0,'C+L':1569.0},
+#    'range':{'C': 41.67,'C+L':85.69}
+#    }
 
 
 ############### --Connectiong -- ###############
@@ -49,7 +52,7 @@ class Luna(TCP):
         '''Close remote connection for OVA5000'''
         self.write("*QUIT")
         self.TCP_close()
-        print(__class__.__name__() + 'had been closed!')
+        print(self.__class__.__name__ + ' had been disconnected!')
 
 ########## --data parse for luna only -- ###############
     def data_pasre(self, command):

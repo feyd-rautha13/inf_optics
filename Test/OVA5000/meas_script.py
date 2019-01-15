@@ -6,15 +6,14 @@ __author__ = 'sizhan Liu'
 __version__ = '1.0'
 
 import sys
-sys.path.append('D:\\work\\coding\\python\\inf_optics\\interface')
-sys.path.append('D:\\work\\coding\\python\\inf_optics\\labdevice')
+sys.path.append('D:\\work\\coding\\python\\inf_optics\\labdevice\\')
 
 from ova5000 import Luna
 import time
 
 #device IP
 ip = {
-    'host' : "10.13.11.139", 
+    'host' : "10.13.51.252", 
     'port' : 1
     }
 
@@ -37,11 +36,11 @@ def test():
     
     #Test parameter 
     #should set start and range, center range would not affect test plan
-    startwav = 1527.38
-    luna.startWav = startwav
+    #startwav = 1527.38
+    #luna.startWav = startwav
 
     #Luna.centerWav = testplan['center']['C']
-    luna.rangeWav = testplan['range']['C']
+    #luna.rangeWav = testplan['range']['C']
 
     #Apply filter
     luna.setSmoothFilter()
@@ -83,14 +82,15 @@ def test():
 
     #File save
     #input("--> Press anykey to store data files..")
-    filepath = "D:\\OMD64\\"+dutname
-    luna.savebinResult(filename=filepath)
-    print(luna.query("*OPC?"))
+    filepath = "C:\\Data\\sliu3\\Documents\\work\\test\\P0\\"+dutname
+    #luna.savebinResult(filename=filepath)
+    #print(luna.query("*OPC?"))
     luna.savetxtResult(filename=filepath)
     print(luna.query("*OPC?"))
     
     #close connection
-    luna.close()
+    #luna.close()
+	
 
 #Note
 
