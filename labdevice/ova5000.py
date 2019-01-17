@@ -12,12 +12,14 @@ import sys
 sys.path.append('D:\\work\\coding\\python\\inf_optics\\interface\\')
 
 import time
+import re
+import pylab as pl
 from TCPinterface import TCP
 
 # debug only
 # luna = Luna(ip['host'], ip['port'])
 #ip = {
-#    'host' : "10.13.51.47", 
+#    'host' : "10.13.51.252", 
 #    'port' : 1
 #    }
 
@@ -296,4 +298,21 @@ class Luna(TCP):
         command = 'SYST:SAVJ'
         self.write(command+" "+filename+'.bin')
         time.sleep(8)
-            
+    def fetchresult(self, items = 0):
+        '''0: IL; 1: GD; 3: PDL; 4:PMD; 11: Min/Max Loss; '''
+        command = 'FETC:MEAS? '+str(items)
+        IL = self.query(command)
+        IL = self.data_pasre(IL)
+        IL = re.split(r"\r",IL)
+        IL = [float(i) for i in IL if i!='']
+        
+        if items == 0:
+            pl.ylim(-20,0), pl.grid(),pl.plot(IL), pl.show()
+        else:
+            pass
+    
+        strtmp = input("input 'n' to disconnet to re-calibrate or \npress any key to continue..")
+        if strtmp.lower()=='n':
+            self.close()
+        else:
+            pass

@@ -1,8 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+<<<<<<< HEAD
+    "\\labdevice",
+    "\\Test",
+    "\\Test\\OVA5000"
+  ],
+  "SelectedNode": "\\labdevice\\ova5000.py",
+=======
     "\\interface"
   ],
   "SelectedNode": "\\interface\\prologix.py",
+>>>>>>> 1fffb12a4315afdec84428832f7ad0424b66beb7
   "PreviewInSolutionExplorer": false
 }

@@ -58,7 +58,9 @@ def test():
     
     time.sleep(5)
     print(luna.query("*OPC?"))
-
+    
+    '''check if something wrong.'''   
+    luna.fetchresult()
     #print measurement information
     #print (luna.measInfor.decode().replace("\x00",""))
 
@@ -82,17 +84,15 @@ def test():
 
     #File save
     #input("--> Press anykey to store data files..")
-    filepath = "C:\\Data\\sliu3\\Documents\\work\\test\\P0\\"+dutname
+    filepath = "C:\\Data\\sliu3\\Documents\\work\\test\\P0\\mux\\"+dutname
     #luna.savebinResult(filename=filepath)
     #print(luna.query("*OPC?"))
     luna.savetxtResult(filename=filepath)
     print(luna.query("*OPC?"))
     
     #close connection
-    #luna.close()
-	
+    luna.close()
 
-#Note
 
 if __name__ == "__main__":
     astart = time.time()
