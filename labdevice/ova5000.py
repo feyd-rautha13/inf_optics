@@ -298,6 +298,8 @@ class Luna(TCP):
         command = 'SYST:SAVJ'
         self.write(command+" "+filename+'.bin')
         time.sleep(8)
+
+################# --data fetch -- ####################    
     def fetchresult(self, items = 0):
         '''0: IL; 1: GD; 3: PDL; 4:PMD; 11: Min/Max Loss; '''
         command = 'FETC:MEAS? '+str(items)
