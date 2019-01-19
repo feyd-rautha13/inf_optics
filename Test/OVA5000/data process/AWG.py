@@ -227,14 +227,3 @@ class channel(object):
         '''
         index = (np.abs(array - value)).argmin()
         return index
-    
-
-
-
-
-
-
-
-
-
-    

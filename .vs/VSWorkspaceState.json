@@ -1,9 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\interface",
-    "\\labdevice"
+    "\\Test",
+    "\\Test\\OVA5000",
+    "\\Test\\OVA5000\\data process"
   ],
-  "SelectedNode": "\\interface\\prologix.py",
+  "SelectedNode": "\\Test\\OVA5000\\data process\\AWG.py",
   "PreviewInSolutionExplorer": false
 }

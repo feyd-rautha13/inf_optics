@@ -32,7 +32,5 @@ def file_convert():
         file_output.close()
         print ('file convert for',i, "is finished.")
 
-
 if __name__ == '__main__':
     file_convert()
-
