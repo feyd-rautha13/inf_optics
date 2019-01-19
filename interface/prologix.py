@@ -85,7 +85,7 @@ class Prologix(TCP):
         return data
     
     def query(self, cmd, flag = None, endnumber = None):
-        '''query GPIB command result from prologix'''
+        '''query GPIB command result from prologix, flag type should be binary, eg: flag = b\r\n '''
         self._flag = flag
         self._endnumber = endnumber
         

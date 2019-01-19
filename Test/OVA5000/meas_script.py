@@ -91,7 +91,7 @@ def test():
     print(luna.query("*OPC?"))
     
     #close connection
-    luna.close()
+    #luna.close()
 
 
 if __name__ == "__main__":
