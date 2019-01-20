@@ -2,18 +2,26 @@
 # -*- coding : utf-8 -*-
 
 """
-Created on Thu Nov 15 15:06:32 2018
-Modified on 
-File description: SSH interface for groove
+Reversion history
 
-2018/12/21
+Rev1.0 Thu Nov 15 15:06:32 2018
+Created.
+
+Rev1.1  Dec 21 2018
 change init function to super()
-add pilot tone card support
-    
+Add pilot tone card support
+
+Rev1.11 Jan 29 2019 
+Simplify code.
 """
 
+'''
+File description: 
+SSH interface for groove.
+'''
+
 __author__ = 'Sizhan Liu'
-__version__ = "1.0"
+__version__ = "1.11"
 
 
 import paramiko
@@ -23,20 +31,15 @@ import re
 import numpy as np
 
 class SSH(object):
-    def __init__(self, hostname='172.29.150.195', port = 8022, 
-                 username = 'administrator' , password = 'e2e!Net4u#',
+    def __init__(self, host='172.29.150.195', port = None, username = None , password = None,
                  timeout = 10
                  ):
-        self._host = hostname
-        self._port = port
-        self._username = username
-        self._password = password
 
         self.ssh = paramiko.SSHClient()
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         
         try:
-            self.ssh.connect(self._host, self._port , self._username, self._password)
+            self.ssh.connect(host, port , username, password)
         except:
             data = self.__class__.__name__
             pprint.pprint(data + " "+ "connection failed!")
@@ -83,18 +86,13 @@ class SSH(object):
    
 class groove_cli(SSH):
     def __init__(self, host = '172.29.150.195',
-                 port = 8022, username = 'administrator' , password = 'e2e!Net4u#',
+                 port = 8022, username = 'administrator' , password = None,
                  timeout = 10):
-        self._host = host
-        self._port = port
-        self._username = username
-        self._password = password
-        self._timeout = timeout
         
         self._ssh_prompt = '~$ '
         self._cli_prompt = '> '
             
-        super().__init__(self._host, self._port, self._username, self._password, self._timeout)
+        super().__init__(host, port, username, password, timeout)
         time.sleep(2)
         
         if self.inspection(self._ssh_prompt):
@@ -137,26 +135,20 @@ class groove_cli(SSH):
         
 class groove_Hal(SSH):
     def __init__(self, host = '172.29.150.195',port = 8022, 
-                 username = 'administrator' , password = 'e2e!Net4u#',
-                 timeout = 10):
+                 username = 'administrator' , password = None,
+                 timeout = 10, halusername = None, halpassword = None):
         
-        self._host = host
-        self._port = port
-        self._username = username
-        self._password = password
-        self._timeout = timeout
         
         self._ssh_prompt = '~$'
         self._hal_prompt = '/home/administrator# '
         self._hal_prompt_2 = 'HAL>'
-        self._hal_username = 'su'
-        self._hal_password = 'cosh1$'
+        self._hal_username = halusername
+        self._hal_password = halpassword
         self._hal_path = 'cd /usr/local/bin'
         self._hal_paht_2 = './HAL'
         
         print('start to connect to server..')
-        super().__init__(self._host, self._port, self._username, self._password, 
-             self._timeout) 
+        super().__init__(host, port, username, password, timeout) 
         
         time.sleep(1)
 
@@ -416,12 +408,3 @@ class O2OPT():
         m_value = 83*(np.sqrt(gf4_pw)/10000)/(rx_pow_m_w/4096)/10**(offsetRxWVgaGain/1000)
         
         return m_value
-        
-        
-        
-            
-            
-            
-            
-            
-            

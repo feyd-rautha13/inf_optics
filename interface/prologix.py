@@ -76,7 +76,7 @@ class Prologix(TCP):
             data = TCP.read_raw(self)
             while True:
                 try:
-                    if len(data) <= 1 or data[-1*endnumber:] != self._flag:
+                    if len(data) <= 1 or data[-1*self._endno:] != self._flag:
                         data += TCP.read_raw(self)
                     else:
                         break   
@@ -85,16 +85,20 @@ class Prologix(TCP):
         return data
     
     def query(self, cmd, flag = None, endnumber = None):
-        '''query GPIB command result from prologix, flag type should be binary, eg: flag = b\r\n '''
-        self._flag = flag
-        self._endnumber = endnumber
+        '''
+        Query GPIB command result from prologix. '
+        Force flag type to binary.
+        '''
         
         self.write(cmd)
         self.write("++read eoi")
 
-        if self._flag == None: 
+        if flag == None: 
             data = self.read()
+        elif isinstance(self._endnumber, bytes):
+            data = self.read(flag = flag, endnumber = endnumber)
         else:
-            data = self.read(flag = self._flag, endnumber = self._endnumber)
+            flag = str(flag).encode()
+            data = self.read(flag = flag, endnumber = endnumber)
         return data
 
