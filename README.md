@@ -3,9 +3,9 @@
 
 
 # BUS
-## socket
-## ssh
-## telnet
+## 'socket'
+## 'ssh'
+## 'telnet'
 
 
 
