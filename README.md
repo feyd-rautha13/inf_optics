@@ -10,8 +10,6 @@
 2. [**Anritsu ms8710b**](/labdevice/ms9710b.py)
 3. [**Hewlett-Packard HP8152A**](/labdivice/hp8152A.py)
 4. [**Luna OVA5000**](/labdevice/ova5000.py)
-5. [**Viavi ONT603**]
-6. [**Yogokawa AQ6317B**]
-
-
-**adding...**
+5. **Viavi ONT603**
+6. **Yogokawa AQ6317B**
+7. **adding...**
