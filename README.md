@@ -2,12 +2,12 @@
  ---
 
 
-## BUS
+## [BUS](/interface)
 - **socket**
 - **ssh**
 - **telnet**
 
-## instruments
+## [instruments](/labdevice)
 1. **Agilent Ag8164B**
 2. **Anritsu ms8710b**
 3. **Hewlett-Packard HP8152A**
