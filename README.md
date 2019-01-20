@@ -3,9 +3,10 @@
 
 
 ## BUS
-**socket**
-**ssh**
-**telnet**
+1. **socket**
+  1.1 **GPIB**
+2. **ssh**
+3. **telnet**
 
 ## instruments
 1. **Agilent Ag8164B**
