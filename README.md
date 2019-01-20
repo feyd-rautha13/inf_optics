@@ -3,12 +3,11 @@
 
 
 ## BUS
-1. **socket**
-2. **ssh**
-3. **telnet**
+- **socket**
+- **ssh**
+- **telnet**
 
 ## instruments
-
 1. **Agilent Ag8164B**
 2. **Anritsu ms8710b**
 3. **Hewlett-Packard HP8152A**
@@ -18,8 +17,3 @@
 
 
 **adding...**
-
-
-$$
-x(t) =a_0 + 2\sum_{k=1}^{+\infty}\Re\{a_ke^{jk\omega_0t}\}
-$$
