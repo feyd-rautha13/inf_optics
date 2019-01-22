@@ -12,14 +12,19 @@ __author__ = 'Sizhan Liu'
 __version__ = "1.0"
 
 
-from AWG import AWG
+import sys
 import os
 import numpy as np
 import time
+import pylab as pl
 
-#test_data_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-17 P1\\P1 convert\\mux\\'
+component_path = "D:\\work\\coding\\python\\inf_optics\\Test\\component"
+test_data_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-17 P1\\P1 convert\\mux\\'
 channel_plan_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-17 P1\\P1 convert\\channelplan.csv'
-test_data_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-17 P1\\P1 convert\\demux\\'
+#test_data_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-17 P1\\P1 convert\\demux\\'
+
+sys.path.append(component_path)
+from AWG import AWG
 
 def get_data_real_path(path=None):
     name_list = os.listdir(path)
@@ -41,6 +46,9 @@ data_name_list = get_data_real_path(test_data_path)
 channel_num = np.linspace(1,64,64, dtype=np.int0)
 
 start = time.time()
+
+'''
+
 
 
 print("chn\t","freq\t","wavelength\t",
@@ -103,3 +111,35 @@ for i in channel_num:
 stop = time.time()
 print (stop - start)  
 
+
+
+
+
+
+'''
+
+
+
+'''
+
+ch32 = AWG(32, data_name_list = data_name_list, channel_plan = channel_plan)
+
+spl = ch33.data_freq_sp_L_idx
+spr = ch33.data_freq_sp_R_idx
+x0 = ch33.data_wavelength[spl:spr]
+y0 = ch33.data_Max_Loss[spl:spr]
+y1 = ch33.data_Min_Loss[spl:spr]
+
+
+pl.plot(x0,y0,label='Max Loss'), pl.plot(x0,y1, label='Min Loss'), pl.legend(),pl.show()
+
+ch32.data_freq_sp_L_val
+193718.957
+ch32.data_freq_sp_R
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'AWG' object has no attribute 'data_freq_sp_R'
+ch32.data_freq_sp_R_val
+193656.08
+
+'''

@@ -63,6 +63,7 @@ class AWG(object):
         '''
         #initial channel ID and specification passband
         self._channel_num = channel_num
+
         self._sp = sp
         
         # channel plan csv file analyser
@@ -82,13 +83,21 @@ class AWG(object):
         self._data_name_list = data_name_list
         self.__data = np.loadtxt(self._data_name_list[channel_num-1])
         
-        self.data_wavelength = self.__data[0:,0]
-        self.data_freq = self.__data[0:,1]
-        self.data_GD = self.__data[0:,2]
-        self.data_PDL = self.__data[0:,3]
-        self.data_PMD = self.__data[0:,4]
-        self.data_Max_Loss = self.__data[0:,5]
-        self.data_Min_Loss = self.__data[0:,6]
+        wav = 0
+        freq = 1
+        gd = 2
+        pdl = 3
+        pmd = 4
+        mxlos = 6
+        mnlos = 5
+
+        self.data_wavelength = self.__data[0:,wav]
+        self.data_freq = self.__data[0:,freq]
+        self.data_GD = self.__data[0:,gd]
+        self.data_PDL = self.__data[0:,pdl]
+        self.data_PMD = self.__data[0:,pmd]
+        self.data_Max_Loss = self.__data[0:,mxlos]
+        self.data_Min_Loss = self.__data[0:,mnlos]
         self.data_IL = 0.5*(self.data_Max_Loss + self.data_Min_Loss)
         
         # Confirm centre frequency, sp_l, sp_R index  from test data
@@ -113,8 +122,8 @@ class AWG(object):
     
     def IL(self):
         IL_cen = self.data_il_cen_val
-        IL_worst_case = np.max(self.data_Max_Loss[self.data_freq_sp_L_idx:self.data_freq_sp_R_idx])
-        IL_best_case = np.min(self.data_Min_Loss[self.data_freq_sp_L_idx:self.data_freq_sp_R_idx])
+        IL_worst_case = np.min(self.data_Max_Loss[self.data_freq_sp_L_idx:self.data_freq_sp_R_idx])
+        IL_best_case = np.max(self.data_Min_Loss[self.data_freq_sp_L_idx:self.data_freq_sp_R_idx])
         IL_ripple = IL_worst_case - IL_best_case
         
         return IL_cen, IL_best_case, IL_worst_case, IL_ripple
