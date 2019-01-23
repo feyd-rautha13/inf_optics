@@ -35,6 +35,7 @@ ITU-T channel plan format (from Specification)
 
 ======================================================================================================
 component data and calibration data format(from Luna)
+Luna give a reverse data column
 ------------------------------------------------------------------------------------------------------
 |0                       |1                      |2              |3      |4      |5          |6  
 |Wavelength(increas)     |Frequency(decrease)    |GD 			 |PDL    |PMD    |Max Loss   |Min Loss
@@ -124,7 +125,7 @@ class AWG(object):
         IL_cen = self.data_il_cen_val
         IL_worst_case = np.min(self.data_Max_Loss[self.data_freq_sp_L_idx:self.data_freq_sp_R_idx])
         IL_best_case = np.max(self.data_Min_Loss[self.data_freq_sp_L_idx:self.data_freq_sp_R_idx])
-        IL_ripple = IL_worst_case - IL_best_case
+        IL_ripple =np.abs( IL_worst_case - IL_best_case)
         
         return IL_cen, IL_best_case, IL_worst_case, IL_ripple
         
