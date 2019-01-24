@@ -17,11 +17,14 @@ import os
 import numpy as np
 import time
 import pylab as pl
-
+#add component class
 component_path = "D:\\work\\coding\\python\\inf_optics\\Test\\component"
-#test_data_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-17 P1\\P1 convert\\mux\\'
+
+#add channel plan
 channel_plan_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-17 P1\\P1 convert\\channelplan.csv'
-test_data_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-17 P1\\P1 convert\\demux\\'
+
+#add data path
+test_data_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\convert\mux\\'
 
 sys.path.append(component_path)
 from AWG import AWG
