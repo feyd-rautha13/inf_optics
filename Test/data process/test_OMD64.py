@@ -24,7 +24,8 @@ component_path = "D:\\work\\coding\\python\\inf_optics\\Test\\component"
 channel_plan_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-17 P1\\P1 convert\\channelplan.csv'
 
 #add data path
-test_data_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\convert\mux\\'
+#test_data_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\convert\\mux\\'
+test_data_path = "D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\convert\\demux\\"
 
 sys.path.append(component_path)
 from AWG import AWG

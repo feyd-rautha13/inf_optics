@@ -10,11 +10,11 @@ This script is used to convert Luna result to numpy parse.
 
 import os
 
-#raw_data_path = "D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\raw data\\mux_txt\\"
-#output_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\convert\\mux\\'
+#raw_data_path = "D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\raw data\\mux\\"
+#output_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\raw data\\f_mux\\'
 
-raw_data_path = "D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\raw data\\demux_txt\\"
-output_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\convert\\demux\\'
+raw_data_path = "d:\\project\\2018-07-09 omd64\\2019-01-24 p1 update\\raw data\\demux\\"
+output_path = "D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\raw data\\f_demux\\"
 
 
 def file_convert():
