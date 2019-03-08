@@ -4,8 +4,9 @@
     "\\interface",
     "\\Test",
     "\\Test\\component",
+    "\\Test\\data process",
     "\\Test\\measure"
   ],
-  "SelectedNode": "\\Test\\component\\AWG.py",
+  "SelectedNode": "\\Test\\component\\OFP2.py",
   "PreviewInSolutionExplorer": false
 }
