@@ -28,10 +28,10 @@ class O2O1x4WSS():
         self.dev.write(cmd)
 
     def AttSet(self, ChnName = 'ch1', value = 1):
-        cmd = "hw {0} ofp2 {1} nmc atten {2} {3}".format(self.card, self.slot, ChnName, value*100)
+        cmd = "hw {0} ofp2 {1} nmc atten {2} {3}".format(self.card, self.slot, ChnName, value*10)
         self.dev.write(cmd)
 
-    def DropChn(self, ChnName = 'ch1'):
+    def DelChn(self, ChnName = 'ch1'):
         '''
         Drop channel you had added.
         '''
