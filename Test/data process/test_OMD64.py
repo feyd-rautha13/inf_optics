@@ -21,7 +21,7 @@ import pylab as pl
 component_path = "D:\\work\\coding\\python\\inf_optics\\Test\\component"
 
 #add channel plan
-channel_plan_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-17 P1\\P1 convert\\channelplan.csv'
+channel_plan_path = 'D:\\project\\passive\\2018-07-09 OMD64\\2019-01-17 P1\\P1 convertchannelplan.csv'
 
 #add data path
 #test_data_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\convert\\mux\\'

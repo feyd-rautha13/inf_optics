@@ -26,23 +26,22 @@ class O2O1x4WSS():
         self.slot = subslot
         self.dev = interface
 
-    def SetChn(self, ChnName = 'ch1', frequency = 191150, bw = 50, att=0):
+    def SetChn(self, ChnName = 'ch1', frequency = 191150, bw = 50):
         '''
         Set channel, center frequency, bandwidth and attenuation.
         '''
+        ChnName = str(ChnName)
         cmd = "hw {0} ofp2 {1} nmc add {2} {3} {4}".format(self.card, self.slot, ChnName, frequency*1000 ,bw*1000)
         self.dev.write(cmd)
         time.sleep(3)
-        
-        cmd = "hw {0} ofp2 {1} nmc atten {2} {3}".format(self.card, self.slot, ChnName, att*10)
-        self.dev.write(cmd)
-        time.sleep(3)
+
 
     def DelChn(self, ChnName = 'ch1'):
         '''
         Drop channel you had added.
         ChnName as string.
         '''
+        ChnName = str(ChnName)
         cmd = "hw {0} ofp2 {1} nmc del {2}".format(self.card, self.slot, ChnName)
         self.dev.write(cmd)
 
@@ -50,6 +49,7 @@ class O2O1x4WSS():
         '''
         Set channel attenation.
         '''
+        ChnName = str(ChnName)
         cmd = "hw {0} ofp2 {1} nmc atten {2} {3}".format(self.card, self.slot, ChnName, att*10)
         self.dev.write(cmd)
 
@@ -57,6 +57,7 @@ class O2O1x4WSS():
         '''
         Operate WSS to enable channel link to the port you selected. 
         '''
+        ChnName = str(ChnName)
         if port not in [0,1,2,3]:
             print ("wrong setting")
         cmd = "hw {0} ofp2 {1} nmc xc {2} {3} 1".format(self.card, self.slot, ChnName, port)
@@ -66,6 +67,7 @@ class O2O1x4WSS():
         '''
         Operate WSS to disable channel link to the port you selected. 
         '''
+        ChnName = str(ChnName)
         if port not in [0,1,2,3]:
             print ("wrong setting")
         cmd = "hw {0} ofp2 {1} nmc xc {2} {3} 0".format(self.card, self.slot, ChnName, port)
