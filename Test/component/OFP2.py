@@ -14,31 +14,46 @@ OFP2 card for groove
 __author__ = 'Sizhan Liu'
 __version__ = "1.0"
 
+import time
+
 class O2O1x4WSS():
-    def __init__(self, interface, card = 1, slot = 1,):
+    def __init__(self, interface, card = 1, subslot = 1,):
+        '''
+        initial 1x4 WSS card;
+        dev as a groove Hal instance.
+        '''
         self.card = card
-        self.slot = slot
+        self.slot = subslot
         self.dev = interface
 
-    def AddChn(self, ChnName = 'ch1', frequency = 191150, bw = 50):
+    def SetChn(self, ChnName = 'ch1', frequency = 191150, bw = 50, att=0):
         '''
-        Add channel, center frequency and bandwidth.
+        Set channel, center frequency, bandwidth and attenuation.
         '''
         cmd = "hw {0} ofp2 {1} nmc add {2} {3} {4}".format(self.card, self.slot, ChnName, frequency*1000 ,bw*1000)
         self.dev.write(cmd)
-
-    def AttSet(self, ChnName = 'ch1', value = 1):
-        cmd = "hw {0} ofp2 {1} nmc atten {2} {3}".format(self.card, self.slot, ChnName, value*10)
+        time.sleep(3)
+        
+        cmd = "hw {0} ofp2 {1} nmc atten {2} {3}".format(self.card, self.slot, ChnName, att*10)
         self.dev.write(cmd)
+        time.sleep(3)
 
     def DelChn(self, ChnName = 'ch1'):
         '''
         Drop channel you had added.
+        ChnName as string.
         '''
         cmd = "hw {0} ofp2 {1} nmc del {2}".format(self.card, self.slot, ChnName)
         self.dev.write(cmd)
 
-    def EnableChn(self, ChnName = 'ch1', port = 3):
+    def SetChnAtt(self, ChnName = 'ch1', att = 0):
+        '''
+        Set channel attenation.
+        '''
+        cmd = "hw {0} ofp2 {1} nmc atten {2} {3}".format(self.card, self.slot, ChnName, att*10)
+        self.dev.write(cmd)
+
+    def Routing(self, ChnName = 'ch1', port = 3):
         '''
         Operate WSS to enable channel link to the port you selected. 
         '''
@@ -47,7 +62,7 @@ class O2O1x4WSS():
         cmd = "hw {0} ofp2 {1} nmc xc {2} {3} 1".format(self.card, self.slot, ChnName, port)
         self.dev.write(cmd)
 
-    def DisChn(self, ChnName = 'ch1', port = 3):
+    def Blocking(self, ChnName = 'ch1', port = 3):
         '''
         Operate WSS to disable channel link to the port you selected. 
         '''
