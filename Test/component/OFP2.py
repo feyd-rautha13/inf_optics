@@ -26,7 +26,7 @@ class O2O1x4WSS():
         self.slot = subslot
         self.dev = interface
 
-    def SetChn(self, ChnName = 'ch1', frequency = 191150, bw = 50):
+    def ConfigChn(self, ChnName = 'ch1', frequency = 191150, bw = 50):
         '''
         Set channel, center frequency, bandwidth and attenuation.
         '''
