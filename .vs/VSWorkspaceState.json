@@ -1,10 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\labdevice",
     "\\Test",
-    "\\Test\\component",
-    "\\Test\\measure"
+    "\\Test\\component"
   ],
-  "SelectedNode": "\\Test\\component\\OFP2.py",
+  "SelectedNode": "\\Test\\component\\WSS.py",
   "PreviewInSolutionExplorer": false
 }
