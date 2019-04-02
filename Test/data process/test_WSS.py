@@ -45,7 +45,8 @@ grid_100 = np.linspace(1,48,48,dtype=np.int32)
 
 sp_pass  =10
 sp_block = 9.5
-grid_50 = 50
+grid_50G = 50
+grid_100G = 100
 
 
 
@@ -63,7 +64,7 @@ print("chn\t","freq\t","wavelength\t",
 start = time.time()
 
 for i in grid_50:
-    chx = WSS(i, channel_plan_path, even_trace_5dB, odd_trace_5dB, sp_pass, sp_block, grid_50)
+    chx = WSS(i, channel_plan_path, even_trace_5dB, odd_trace_5dB, sp_pass, sp_block, grid_50G)
     parameter = chx.channel_parameter()
     
     chn = parameter[0]
