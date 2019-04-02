@@ -3,8 +3,9 @@
     "",
     "\\labdevice",
     "\\Test",
-    "\\Test\\component"
+    "\\Test\\component",
+    "\\Test\\data process"
   ],
-  "SelectedNode": "\\Test\\component\\WSS.py",
+  "SelectedNode": "\\Test\\component\\AWG.py",
   "PreviewInSolutionExplorer": false
 }
