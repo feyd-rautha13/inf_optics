@@ -17,8 +17,8 @@ __version__ = "1.1"
 import numpy as np
 import pylab as pl
 
-even_trace = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_even_50G_0dB.txt"
-odd_trace = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_odd_50G_0dB.txt"
+even_trace = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_even_50G_0dB.txt"
+odd_trace = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_odd_50G_0dB.txt"
 channel_plan_path = "D:\\project\\OFP2\\2018-04-27 WSS\\test\\code\\channelplan_50G.csv "
 
 
@@ -193,15 +193,22 @@ class WSS(object):
             return polynomial[1], gdr
         else:
             print('fail')
+        
 
     @property
     def pmd(self):
         '''
-        polarization mode dispeersion, within SP.
+        polarization mode dispeersion, within SOP.
+        Polarization mode dispersion (PMD), or differential group delay (DGD), is the 
+        maximum difference in group delay over all polarization states.
         '''
-        pmd_max = np.max(self.pass_GD[self._ITU_freq_pass_L_idx : self._ITU_freq_pass_R_idx])
-        pmd_min = np.min(self.pass_GD[self._ITU_freq_pass_L_idx : self._ITU_freq_pass_R_idx])
-        return pmd_max - pmd_min
+#        pmd_max = np.max(self.pass_GD[self._ITU_freq_pass_L_idx : self._ITU_freq_pass_R_idx])
+#        pmd_min = np.min(self.pass_GD[self._ITU_freq_pass_L_idx : self._ITU_freq_pass_R_idx])
+        
+        pmd_pmd = np.max(self.pass_PMD[self._ITU_freq_pass_L_idx : self._ITU_freq_pass_R_idx])
+        
+        
+        return pmd_pmd
     
     @property
     def pdl(self):
@@ -218,7 +225,42 @@ class WSS(object):
         
         return pass_min - block_max
         
-         
+    def make_wave(self, x=0, y = 0):
+        '''
+        make wave
+        Xaxis, 0: wavelength, 1: frquencvy
+        Yaxis, 0: IL, 1: GD, 2 :PDL, 3: PMD
+        '''
+        
+        if x==0:
+            xlabel = 'Wavelength (nm)'
+            xaxis = self.pass_wav[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+        elif x==1:
+            xlabel = 'Frequency (THz)'
+            xaxis = self.pass_freq[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]/1000
+        else:
+            raise NameError
+        
+        if y==0:
+            ylable = "IL (dB)"
+            yaxis = self.pass_IL[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+        elif y==1:
+            ylable = "GD (ps)"
+            yaxis = self.pass_GD[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+        elif y==2:
+            ylable = "PDL (dB)"
+            yaxis = self.pass_PDL[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+        elif y==3:
+            ylable = "PMD (ps)"
+            yaxis = self.pass_PMD[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+        else:
+            raise NameError
+        
+        pl.plot(xaxis, yaxis, '.')
+        pl.title(ylable)
+        pl.xlabel(xlabel)
+        pl.ylabel(ylable)
+        pl.show()         
         
         
     def find_nearest_index(self,array,value):
