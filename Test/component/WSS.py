@@ -242,24 +242,26 @@ class WSS(object):
             raise NameError
         
         if y==0:
-            ylable = "IL (dB)"
+            ylabel = "IL (dB)"
             yaxis = self.pass_IL[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
         elif y==1:
-            ylable = "GD (ps)"
+            ylabel = "GD (ps)"
             yaxis = self.pass_GD[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
         elif y==2:
-            ylable = "PDL (dB)"
+            ylabel = "PDL (dB)"
             yaxis = self.pass_PDL[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
         elif y==3:
-            ylable = "PMD (ps)"
+            ylabel = "PMD (ps)"
             yaxis = self.pass_PMD[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
         else:
             raise NameError
         
-        pl.plot(xaxis, yaxis, '.')
-        pl.title(ylable)
+        pl.figure(figsize=(6.4, 4.8))
+        pl.plot(xaxis, yaxis, '.r')
+        pl.title(ylabel)
+        pl.legend([ylabel])
         pl.xlabel(xlabel)
-        pl.ylabel(ylable)
+        pl.ylabel(ylabel)
         pl.show()         
         
         
