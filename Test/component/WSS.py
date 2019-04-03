@@ -228,7 +228,7 @@ class WSS(object):
     def make_wave(self, x=0, y = 0):
         '''
         make wave
-        Xaxis, 0: wavelength, 1: frquencvy
+        Xaxis, 0: wavelength, 1: frequency
         Yaxis, 0: IL, 1: GD, 2 :PDL, 3: PMD
         '''
         
