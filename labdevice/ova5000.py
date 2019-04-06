@@ -301,11 +301,11 @@ class Luna(TCP):
 
 ################# --data fetch -- ####################    
     def fetchresult(self, items = 0):
-        '''0: IL; 1: GD; 3: PDL; 4:PMD; 11: Min/Max Loss; '''
+        '''0: IL; 1: GD; 3: PDL; 4:PMD; 11: Min/Max Loss; P153'''
         command = 'FETC:MEAS? '+str(items)
         IL = self.query(command)
         IL = self.data_pasre(IL)
-        IL = re.split(r"\r",IL)
+        IL = re.split(r"\r|\t",IL)
         IL = [float(i) for i in IL if i!='']
         
         if items == 0:
@@ -318,3 +318,4 @@ class Luna(TCP):
             self.close()
         else:
             pass
+        return IL
