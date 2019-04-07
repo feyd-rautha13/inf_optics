@@ -270,23 +270,4 @@ class WSS(object):
         find the nearest value index in an array
         '''
         index = (np.abs(array - value)).argmin()
-        return index        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        return index
