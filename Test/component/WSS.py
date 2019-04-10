@@ -234,25 +234,25 @@ class WSS(object):
         
         if x==0:
             xlabel = 'Wavelength (nm)'
-            xaxis = self.pass_wav[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+            xaxis = self.pass_wav[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]
         elif x==1:
             xlabel = 'Frequency (THz)'
-            xaxis = self.pass_freq[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]/1000
+            xaxis = self.pass_freq[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]/1000
         else:
             raise NameError
         
         if y==0:
             ylabel = "IL (dB)"
-            yaxis = self.pass_IL[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+            yaxis = self.pass_IL[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]
         elif y==1:
             ylabel = "GD (ps)"
-            yaxis = self.pass_GD[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+            yaxis = self.pass_GD[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]
         elif y==2:
             ylabel = "PDL (dB)"
-            yaxis = self.pass_PDL[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+            yaxis = self.pass_PDL[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]
         elif y==3:
             ylabel = "PMD (ps)"
-            yaxis = self.pass_PMD[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+            yaxis = self.pass_PMD[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]
         else:
             raise NameError
         
