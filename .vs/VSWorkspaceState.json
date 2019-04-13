@@ -3,6 +3,7 @@
     "",
     "\\interface",
     "\\labdevice",
+    "\\Test",
     "\\Test\\component",
     "\\Test\\data process",
     "\\Test\\measure"
