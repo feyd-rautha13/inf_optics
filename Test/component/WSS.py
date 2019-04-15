@@ -220,10 +220,17 @@ class WSS(object):
     
     @property
     def ER(self):
-        pass_min = np.min(self.pass_max_Loss[self._ITU_freq_pass_L_idx : (self._ITU_freq_pass_R_idx+1)])
-        block_max = np.max(self.block_min_Loss[self._ITU_freq_block_L_idx : (self._ITU_freq_block_R_idx + 1)])
         
-        return pass_min - block_max
+        pass_min = np.min(self.pass_IL[req_pass_L_idx : (self._ITU_freq_pass_R_idx+1)])
+        block_max = np.max(self.block_IL[req_pass_L_idx : (self._ITU_freq_pass_R_idx+1)])
+        
+        pass_sop_min = np.min(self.pass_max_Loss[self._ITU_freq_pass_L_idx : (self._ITU_freq_pass_R_idx+1)])
+        block_sop_max = np.max(self.block_min_Loss[self._ITU_freq_block_L_idx : (self._ITU_freq_block_R_idx + 1)])
+        
+        ER_avg = pass_min - block_max
+        ER_sop = pass_sop_min - block_sop_max
+        
+        return ER_avg, ER_sop
         
     def make_wave(self, x=0, y = 0):
         '''
