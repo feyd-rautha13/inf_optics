@@ -13,8 +13,8 @@ import os
 #raw_data_path = "D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\raw data\\mux\\"
 #output_path = 'D:\\project\\2018-07-09 OMD64\\2019-01-24 P1 update\\raw data\\f_mux\\'
 
-raw_data_path = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\100G Test\\Port4\\"
-output_path = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_100G\Port4\\"
+raw_data_path = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\50G\\port4\\"
+output_path = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\port4\\"
 
 
 def file_convert():
