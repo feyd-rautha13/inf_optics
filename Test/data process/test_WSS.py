@@ -24,56 +24,56 @@ component_path = "D:\\work\\coding\\python\\inf_optics\\Test\\component\\"
 channel_plan_path = "D:\\project\\OFP2\\2018-04-27 WSS\\test\\code\\channelplan_50G.csv "
 
 #add port1 data path
-even_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_even_50G_0dB.txt"
-odd_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_odd_50G_0dB.txt"
+p1_even_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\port1\\f_even_50G_0dB.txt"
+p1_odd_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\port1\\f_odd_50G_0dB.txt"
 
-even_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_even_50G_5dB.txt"
-odd_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_odd_50G_5dB.txt"
+p1_even_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\port1\\f_even_50G_5dB.txt"
+p1_odd_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\port1\\f_odd_50G_5dB.txt"
 
-even_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_even_50G_10dB.txt"
-odd_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_odd_50G_10dB.txt"
+p1_even_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\port1\\f_even_50G_10dB.txt"
+p1_odd_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\port1\\f_odd_50G_10dB.txt"
 
-even_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_even_50G_15dB.txt"
-odd_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_odd_50G_15dB.txt"
+p1_even_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\port1\\f_even_50G_15dB.txt"
+p1_odd_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\port1\\f_odd_50G_15dB.txt"
 
 #add port2 data path
-p2_even_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port2\\f_even_50G_0dB.txt"
-p2_odd_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port2\\f_odd_50G_0dB.txt"
+p2_even_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\port2\\f_even_50G_0dB.txt"
+p2_odd_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port2\\f_odd_50G_0dB.txt"
 
-p2_even_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port2\\f_even_50G_5dB.txt"
-p2_odd_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port2\\f_odd_50G_5dB.txt"
+p2_even_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port2\\f_even_50G_5dB.txt"
+p2_odd_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port2\\f_odd_50G_5dB.txt"
 
-p2_even_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port2\\f_even_50G_10dB.txt"
-p2_odd_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port2\\f_odd_50G_10dB.txt"
+p2_even_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port2\\f_even_50G_10dB.txt"
+p2_odd_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port2\\f_odd_50G_10dB.txt"
 
-p2_even_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port2\\f_even_50G_15dB.txt"
-p2_odd_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port2\\f_odd_50G_15dB.txt"
+p2_even_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port2\\f_even_50G_15dB.txt"
+p2_odd_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port2\\f_odd_50G_15dB.txt"
 
 #add port3 data path
-p3_even_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port3\\f_even_50G_0dB.txt"
-p3_odd_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port3\\f_odd_50G_0dB.txt"
+p3_even_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port3\\f_even_50G_0dB.txt"
+p3_odd_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port3\\f_odd_50G_0dB.txt"
 
-p3_even_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port3\\f_even_50G_5dB.txt"
-p3_odd_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port3\\f_odd_50G_5dB.txt"
+p3_even_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port3\\f_even_50G_5dB.txt"
+p3_odd_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port3\\f_odd_50G_5dB.txt"
 
-p3_even_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port3\\f_even_50G_10dB.txt"
-p3_odd_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port3\\f_odd_50G_10dB.txt"
+p3_even_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port3\\f_even_50G_10dB.txt"
+p3_odd_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port3\\f_odd_50G_10dB.txt"
 
-p3_even_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port3\\f_even_50G_15dB.txt"
-p3_odd_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port3\\f_odd_50G_15dB.txt"
+p3_even_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port3\\f_even_50G_15dB.txt"
+p3_odd_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port3\\f_odd_50G_15dB.txt"
 
 #add port4 data path
-p4_even_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_even_50G_0dB.txt"
-p4_odd_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_odd_50G_0dB.txt"
+p4_even_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\Port4\\f_even_50G_0dB.txt"
+p4_odd_trace_0dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port4\\f_odd_50G_0dB.txt"
 
-p4_even_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_even_50G_5dB.txt"
-p4_odd_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_odd_50G_5dB.txt"
+p4_even_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port4\\f_even_50G_5dB.txt"
+p4_odd_trace_5dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port4\\f_odd_50G_5dB.txt"
 
-p4_even_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_even_50G_10dB.txt"
-p4_odd_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_odd_50G_10dB.txt"
+p4_even_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port4\\f_even_50G_10dB.txt"
+p4_odd_trace_10dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port4\\f_odd_50G_10dB.txt"
 
-p4_even_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_even_50G_15dB.txt"
-p4_odd_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_odd_50G_15dB.txt"
+p4_even_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port4\\f_even_50G_15dB.txt"
+p4_odd_trace_15dB = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-04-12 data\\9H0320002\\f_50G\\Port4\\f_odd_50G_15dB.txt"
 
 
 
@@ -152,28 +152,85 @@ def testWss(channel_plan, even_trace, odd_trace, sp_pass, sp_block, grid):
 
 
 
+
+
+#port1
+
+print("--------------------------------------------------------------------------------------------")
+print("------------------------------------Port1 test----------------------------------------------")
+print("--------------------------------------------------------------------------------------------")
+
+print("Port1 0dB test\n")
+testWss(channel_plan_path, p1_even_trace_0dB, p1_odd_trace_0dB, sp_pass, sp_block, grid_50G)
+print("--------------------------------------------------------------------------------------------")
+print("--------------------------------------------------------------------------------------------")
+
+#print("Port1 5dB test\n")
+#testWss(channel_plan_path, p1_even_trace_5dB, p1_odd_trace_5dB, sp_pass, sp_block, grid_50G)
+#print("--------------------------------------------------------------------------------------------")
+#print("--------------------------------------------------------------------------------------------")
+
+#print("Port1 10dB test\n")
+#testWss(channel_plan_path, p1_even_trace_10dB, p1_odd_trace_10dB, sp_pass, sp_block, grid_50G)
+#print("--------------------------------------------------------------------------------------------")
+#print("--------------------------------------------------------------------------------------------")
+
+#print("Port1 15dB test\n")
+#testWss(channel_plan_path, p1_even_trace_15dB, p1_odd_trace_15dB, sp_pass, sp_block, grid_50G)
+#print("--------------------------------------------------------------------------------------------")
+#print("--------------------------------------------------------------------------------------------")
+
+
+
+#port2
+
+print("--------------------------------------------------------------------------------------------")
+print("------------------------------------Port2 test----------------------------------------------")
+print("--------------------------------------------------------------------------------------------")
+
+print("Port2 0dB test\n")
+testWss(channel_plan_path, p2_even_trace_0dB, p2_odd_trace_0dB, sp_pass, sp_block, grid_50G)
+print("--------------------------------------------------------------------------------------------")
+print("--------------------------------------------------------------------------------------------")
+
+#print("Port2 5dB test\n")
+#testWss(channel_plan_path, p2_even_trace_5dB, p2_odd_trace_5dB, sp_pass, sp_block, grid_50G)
+#print("--------------------------------------------------------------------------------------------")
+#print("--------------------------------------------------------------------------------------------")
+
+#print("Port2 10dB test\n")
+#testWss(channel_plan_path, p2_even_trace_10dB, p2_odd_trace_10dB, sp_pass, sp_block, grid_50G)
+#print("--------------------------------------------------------------------------------------------")
+#print("--------------------------------------------------------------------------------------------")
+
+#print("Port2 15dB test\n")
+#testWss(channel_plan_path, p2_even_trace_15dB, p2_odd_trace_15dB, sp_pass, sp_block, grid_50G)
+#print("--------------------------------------------------------------------------------------------")
+#print("--------------------------------------------------------------------------------------------")
+
+
 #port3
 
-#print("--------------------------------------------------------------------------------------------")
-#print("------------------------------------Port3 test----------------------------------------------")
-#print("--------------------------------------------------------------------------------------------")
+print("--------------------------------------------------------------------------------------------")
+print("------------------------------------Port3 test----------------------------------------------")
+print("--------------------------------------------------------------------------------------------")
 
-#print("Port3 0dB test")
-#testWss(channel_plan_path, p3_even_trace_0dB, p3_odd_trace_0dB, sp_pass, sp_block, grid_50G)
-#print("--------------------------------------------------------------------------------------------")
-#print("--------------------------------------------------------------------------------------------")
+print("Port3 0dB test\n")
+testWss(channel_plan_path, p3_even_trace_0dB, p3_odd_trace_0dB, sp_pass, sp_block, grid_50G)
+print("--------------------------------------------------------------------------------------------")
+print("--------------------------------------------------------------------------------------------")
 
-#print("Port3 5dB test")
+#print("Port3 5dB test\n")
 #testWss(channel_plan_path, p3_even_trace_5dB, p3_odd_trace_5dB, sp_pass, sp_block, grid_50G)
 #print("--------------------------------------------------------------------------------------------")
 #print("--------------------------------------------------------------------------------------------")
 
-#print("Port3 10dB test")
+#print("Port3 10dB test\n")
 #testWss(channel_plan_path, p3_even_trace_10dB, p3_odd_trace_10dB, sp_pass, sp_block, grid_50G)
 #print("--------------------------------------------------------------------------------------------")
 #print("--------------------------------------------------------------------------------------------")
 
-#print("Port3 15dB test")
+#print("Port3 15dB test\n")
 #testWss(channel_plan_path, p3_even_trace_15dB, p3_odd_trace_15dB, sp_pass, sp_block, grid_50G)
 #print("--------------------------------------------------------------------------------------------")
 #print("--------------------------------------------------------------------------------------------")
@@ -188,22 +245,22 @@ print("-----------------------------------Port4 test----------------------------
 print("--------------------------------------------------------------------------------------------")
 
 
-print("Port4 0dB test")
+print("Port4 0dB test\n")
 testWss(channel_plan_path, p4_even_trace_0dB, p4_odd_trace_0dB, sp_pass, sp_block, grid_50G)
 print("--------------------------------------------------------------------------------------------")
 print("--------------------------------------------------------------------------------------------")
 
-#print("Port4 5dB test")
+#print("Port4 5dB test\n")
 #testWss(channel_plan_path, p4_even_trace_5dB, p4_odd_trace_5dB, sp_pass, sp_block, grid_50G)
 #print("--------------------------------------------------------------------------------------------")
 #print("--------------------------------------------------------------------------------------------")
 
-#print("Port4 10dB test")
+#print("Port4 10dB test\n")
 #testWss(channel_plan_path, p4_even_trace_10dB, p4_odd_trace_10dB, sp_pass, sp_block, grid_50G)
 #print("--------------------------------------------------------------------------------------------")
 #print("--------------------------------------------------------------------------------------------")
 
-#print("Port4 15dB test")
+#print("Port4 15dB test\n")
 #testWss(channel_plan_path, p4_even_trace_15dB, p4_odd_trace_15dB, sp_pass, sp_block, grid_50G)
 #print("--------------------------------------------------------------------------------------------")
 #print("--------------------------------------------------------------------------------------------")
