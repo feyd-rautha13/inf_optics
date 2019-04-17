@@ -167,7 +167,7 @@ class WSS(object):
         
         return freq_L_idx, freq_R_idx, freq_L_val, freq_R_val, ccp_band_L,ccp_band_R, xdB_passband, xdB_ccp_passband, xdB_wave_accuracy
 
-    def gdr_cd(self, order = 2):
+    def gdr_cd(self, order = 2, isplot = None):
         '''
         Under discussion.
         '''
@@ -183,10 +183,13 @@ class WSS(object):
         gdr_list = gd_list - gd_list_poly
         gdr = gdr_list[np.abs(gdr_list).argmax()]
         
-#        pl.plot(wave_list, gd_list, label='Init'),pl.plot(wave_list, gd_list_poly, label = 'Fit')
-#        pl.show()
-#        print(p1)              
-#        print( polynomial[1], gdr)
+        if isplot==1:
+            pl.plot(wave_list, gd_list, label='Init'),pl.plot(wave_list, gd_list_poly, label = 'Fit')
+            pl.show()
+            print(p1)              
+            print( polynomial[1], gdr)
+        else:
+            pass
         if order == 1:
             return polynomial[0], gdr
         elif order == 2:
