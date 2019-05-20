@@ -1,12 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\labdevice",
     "\\Test",
     "\\Test\\component",
     "\\Test\\data process",
     "\\Test\\measure"
   ],
-  "SelectedNode": "\\labdevice\\ova5000.py",
+  "SelectedNode": "\\Test\\component\\AWG.py",
   "PreviewInSolutionExplorer": false
 }
