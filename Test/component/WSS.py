@@ -17,8 +17,8 @@ __version__ = "1.1"
 import numpy as np
 import pylab as pl
 
-even_trace = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_even_50G_0dB.txt"
-odd_trace = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port4\\f_odd_50G_0dB.txt"
+even_trace = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_even_50G_0dB.txt"
+odd_trace = "D:\\project\\OFP2\\2018-04-27 WSS\\2019-03-29 data\\f_50G\\Port1\\f_odd_50G_0dB.txt"
 channel_plan_path = "D:\\project\\OFP2\\2018-04-27 WSS\\test\\code\\channelplan_50G.csv "
 
 
@@ -167,7 +167,7 @@ class WSS(object):
         
         return freq_L_idx, freq_R_idx, freq_L_val, freq_R_val, ccp_band_L,ccp_band_R, xdB_passband, xdB_ccp_passband, xdB_wave_accuracy
 
-    def gdr_cd(self, order = 2):
+    def gdr_cd(self, order = 2, isplot = None):
         '''
         Under discussion.
         '''
@@ -183,10 +183,13 @@ class WSS(object):
         gdr_list = gd_list - gd_list_poly
         gdr = gdr_list[np.abs(gdr_list).argmax()]
         
-#        pl.plot(wave_list, gd_list, label='Init'),pl.plot(wave_list, gd_list_poly, label = 'Fit')
-#        pl.show()
-#        print(p1)              
-#        print( polynomial[1], gdr)
+        if isplot==1:
+            pl.plot(wave_list, gd_list, label='Init'),pl.plot(wave_list, gd_list_poly, label = 'Fit')
+            pl.show()
+            print(p1)              
+            print( polynomial[1], gdr)
+        else:
+            pass
         if order == 1:
             return polynomial[0], gdr
         elif order == 2:
@@ -218,12 +221,52 @@ class WSS(object):
         pdl = np.max(self.pass_PDL[self._ITU_freq_pass_L_idx : self._ITU_freq_pass_R_idx])
         return pdl    
     
-    @property
+    
     def ER(self):
-        pass_min = np.min(self.pass_max_Loss[self._ITU_freq_pass_L_idx : (self._ITU_freq_pass_R_idx+1)])
-        block_max = np.max(self.block_min_Loss[self._ITU_freq_block_L_idx : (self._ITU_freq_block_R_idx + 1)])
         
-        return pass_min - block_max
+        pass_min = np.min(self.pass_IL[self._ITU_freq_pass_L_idx : (self._ITU_freq_pass_R_idx+1)])
+        block_max = np.max(self.block_IL[self._ITU_freq_pass_L_idx : (self._ITU_freq_pass_R_idx+1)])
+        
+        pass_sop_min = np.min(self.pass_max_Loss[self._ITU_freq_pass_L_idx : (self._ITU_freq_pass_R_idx+1)])
+        block_sop_max = np.max(self.block_min_Loss[self._ITU_freq_block_L_idx : (self._ITU_freq_block_R_idx + 1)])
+        
+        ER_avg = pass_min - block_max
+        ER_sop = pass_sop_min - block_sop_max
+        
+        return ER_avg, ER_sop
+    
+    def Casecade(self, casecad_no = 20, isplot=None):
+        
+        IL_case = self.pass_IL + (casecad_no-1)*self.pass_IL
+        IL_case_ITU_IL = IL_case[self._ITU_freq_cen_idx]
+        
+        freq_L_idx = self.find_nearest_index(IL_case[self._ITU_freq_grid_L_idx:self._ITU_freq_cen_idx+1], IL_case_ITU_IL - 3) + self._ITU_freq_grid_L_idx
+        freq_R_idx = self.find_nearest_index(IL_case[self._ITU_freq_cen_idx:self._ITU_freq_grid_R_idx+1], IL_case_ITU_IL - 3) + self._ITU_freq_cen_idx        
+        
+        freq_L_val = self.pass_freq[freq_R_idx]
+        freq_R_val = self.pass_freq[freq_L_idx]
+        
+        ccp_band_L = np.abs(self._ITU_freq_cen_val - freq_L_val)
+        ccp_band_R = np.abs(freq_R_val - self._ITU_freq_cen_val)
+
+        Three_dB_passband = np.abs(freq_R_val - freq_L_val)
+        Three_dB_ccp_passband = 2*np.min([ccp_band_L, ccp_band_R])
+        
+        frlist = self.pass_freq[self._ITU_freq_grid_L_idx:(self._ITU_freq_grid_R_idx+1)]
+        IL_case_0 = self.pass_IL[self._ITU_freq_grid_L_idx:(self._ITU_freq_grid_R_idx+1)]
+        IL_case_n = IL_case[self._ITU_freq_grid_L_idx:(self._ITU_freq_grid_R_idx+1)]
+        
+        if isplot == 1:
+            
+            pl.figure(figsize=(10,8))
+            pl.subplot(211)
+            pl.plot(frlist, IL_case_0)
+            pl.subplot(212)
+            pl.plot(frlist, IL_case_n)
+        else:
+            pass
+        
+        return Three_dB_passband, Three_dB_ccp_passband
         
     def make_wave(self, x=0, y = 0):
         '''
@@ -234,25 +277,25 @@ class WSS(object):
         
         if x==0:
             xlabel = 'Wavelength (nm)'
-            xaxis = self.pass_wav[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+            xaxis = self.pass_wav[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]
         elif x==1:
             xlabel = 'Frequency (THz)'
-            xaxis = self.pass_freq[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]/1000
+            xaxis = self.pass_freq[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]/1000
         else:
             raise NameError
         
         if y==0:
             ylabel = "IL (dB)"
-            yaxis = self.pass_IL[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+            yaxis = self.pass_IL[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]
         elif y==1:
             ylabel = "GD (ps)"
-            yaxis = self.pass_GD[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+            yaxis = self.pass_GD[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]
         elif y==2:
             ylabel = "PDL (dB)"
-            yaxis = self.pass_PDL[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+            yaxis = self.pass_PDL[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]
         elif y==3:
             ylabel = "PMD (ps)"
-            yaxis = self.pass_PMD[self._ITU_freq_pass_L_idx: (self._ITU_freq_pass_R_idx+1)]
+            yaxis = self.pass_PMD[self._ITU_freq_grid_L_idx: (self._ITU_freq_grid_R_idx+1)]
         else:
             raise NameError
         
