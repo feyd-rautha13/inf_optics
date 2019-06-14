@@ -61,6 +61,13 @@ class Luna(TCP):
         return command.decode().replace("\x00",'')
 
 ########## --super class alternative method --- #######
+    def write(self, cmd):
+        '''
+        rewrtie a 'write' command for Luna
+        '''
+        cmd = str(cmd)
+        TCP.write(self,cmd)
+    
     def read(self):
         '''
         The Luna response time may larger than TCP time out time.
