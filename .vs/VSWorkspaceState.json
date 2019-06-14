@@ -1,11 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\labdevice",
     "\\Test",
-    "\\Test\\component",
-    "\\Test\\data process",
     "\\Test\\measure"
   ],
-  "SelectedNode": "\\Test\\component\\WSS.py",
+  "SelectedNode": "\\Test\\measure\\Luna_reference script.py",
   "PreviewInSolutionExplorer": false
 }
