@@ -23,7 +23,7 @@ ip = '172.29.150.191'
 port = 5025
 
 ############### --Connectiong -- ###############
-class FTB8(TCP):
+class LTB8(TCP):
     def __init__(self, host, port):
         '''Setup a remote connection for FTB'''
         self._host = host
@@ -45,7 +45,6 @@ class FTB8(TCP):
 
     def close(self):
         '''Close remote connection for FTB-8'''
-        self.write("*QUIT")
         self.TCP_close()
         print(self.__class__.__name__ + ' had been disconnected!')
 
@@ -69,28 +68,32 @@ class FTB8(TCP):
 #                #return data    
 #            except:
 #                pass
-#        return data       
+#        return data    
+    
+    def write(self,cmd):
+        '''Re-write 'write' command '''
+        cmd = str(cmd) + '\n'
+        TCP.write(self,cmd)
+        
     
     def query(self,cmd):
         '''query result from Luna'''
-        cmd = str(cmd)+"\n"
         self.write(cmd)
-#        time.sleep(0.5)
         data = self.read_raw()
         return data
 
-    def inspection(self,command ="SYST:ERR?" ,exception = '0'):
-        while True:
-            try:
-                Q = self.query(command)
-                #print (type(Q))
-                #print (Q)
-                if self.data_pasre(Q) == exception:
-                    break
-                else:
-                    print("--> Verifing, or use Ctrl+C to end this process.")
-            except:
-                pass
+#    def inspection(self,command ="SYST:ERR?" ,exception = '0'):
+#        while True:
+#            try:
+#                Q = self.query(command)
+#                #print (type(Q))
+#                #print (Q)
+#                if self.data_pasre(Q) == exception:
+#                    break
+#                else:
+#                    print("--> Verifing, or use Ctrl+C to end this process.")
+#            except:
+#                pass
 
 
 #################---Traffic analyser ---###############
@@ -110,14 +113,60 @@ class FTB8(TCP):
     def CurrentBERState(self, lane=8):
         for i in range(8):
             print("Lane {0} BER = ".format(i), self.BERperLane(i))
+
+######################### --Test Box Control -##################    
+    def ResetTest(self):
+        self.CLS()
+        self.write("LINS5:SOURce:DATA:TELecom:RESet")
         
         
+######################## -- QSFP-DD ######################
+    @property
+    def ModuleType(self):
+        self.CLS()
+        cmd = "LINS5:SENSe:DATA:TELecom:OPTical:QSFP:MODule:ID?"
+        data = self.query(cmd)
+        data = data.decode().replace('\n','')  
+        return data
+    
+    @property
+    def ModuleVendor(self):
+        self.CLS()
+        cmd = "LINS5:SENSe:DATA:TELecom:OPTical:QSFP:VENDor:NAMe?"
+        data = self.query(cmd)
+        data = data.decode().replace('\n','')  
+        return data        
         
+    @property
+    def ModulePowerClass(self):
+        self.CLS()
+        cmd = "LINS5:SOURce:DATA:TELecom:QSFP:CPWR?"
+        data = self.query(cmd)
+        data = data.decode().replace('\n','')  
+        return data  
+    
+    def ModuleLaserONPerLane(self, lane=0):
+        self.CLS()
+        cmd = "LINS5:SENS:DATA:TEL:LAS {0}, ON".format(lane)
+        self.write(cmd)
+    
+    def ModuleLaserOFFPerLane(self, lane=0):
+        self.CLS()
+        cmd = "LINS5:SENS:DATA:TEL:LAS {0}, OFF".format(lane)
+        self.write(cmd)
         
-        
-        
-        
-        
+    def ModuleTxPwrPerLane(self, lane=0):
+        self.CLS()
+        cmd = "LINS5:SENS:DATA:TEL:OPT:TX:POW? {0}".format(lane)
+        data = self.query(cmd)
+        data = float(data.decode().replace('\n',''))
+        return data
+    def ModuleRxPwrPerLane(self, lane=0):
+        self.CLS()
+        cmd = "LINS5:SENS:DATA:TEL:OPT:RX:POW? {0}".format(lane)
+        data = self.query(cmd)
+        data = float(data.decode().replace('\n',''))
+        return data        
         
         
         
