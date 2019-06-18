@@ -59,6 +59,7 @@ def test(filepath, dutname):
     #print(luna.query("*OPC?"))
     luna.savetxtResult(filename=filepath)
     print(luna.query("*OPC?"))
+    print("--> Test {0} Done!".format(dutname))
     
     #close connection
     luna.close()
