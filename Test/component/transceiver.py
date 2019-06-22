@@ -230,6 +230,16 @@ class QSFPDD():
         for i in eeprom:
             s += i
         return s
+
+#Table 54
+    @property
+    def ModDisableAllLaser(self):
+        self.dev.clear_buffer()
+        self.reg_set(0x10, 128,0)
+    @property
+    def ModEnableAllLaser(self):
+        self.dev.clear_buffer()
+        self.reg_set(0x10, 128,0xFF) 
     
     
     
