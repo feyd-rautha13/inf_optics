@@ -54,10 +54,16 @@ import numpy as np
 #import os
 
 class AWG(object):
-    def __init__(self,channel_num, sp = 31.5, data_name_list = None, channel_plan = None):
+    def __init__(self,channel_num, sp = 31.5, data_name_list = None, channel_plan = None, indexoffset =0):
         '''
         initial channel number, center frequency, center wavelength
         read data from file
+        
+        channel_num: Channel index from channel plan
+        sp: specific passband
+        data_name_list: the raw data content, from luna test result
+        channel plan: channel plan file analyse, need update
+        indexoffset: mapping offset, when channel plan number unequals to data file quntaty.
         '''
         #initial channel ID and specification passband
         self._channel_num = channel_num
@@ -77,9 +83,10 @@ class AWG(object):
         self._cr_freq_sp_L_val = self._channel_plan_center_freq_list[self._channel_num-1] - self._sp
         self._cr_freq_sp_R_val = self._channel_plan_center_freq_list[self._channel_num-1] + self._sp
         
-        #luna data parse        
+        #luna data parse       
+        self._indexoffset = indexoffset
         self._data_name_list = data_name_list
-        self.__data = np.loadtxt(self._data_name_list[channel_num-1])
+        self.__data = np.loadtxt(self._data_name_list[channel_num - self._indexoffset - 1])
         
         wav = 0
         freq = 1
@@ -202,7 +209,7 @@ class AWG(object):
         
         for i in self._channle_plan_id_list:
             
-            channel_data = np.loadtxt(self._data_name_list[i-1])
+            channel_data = np.loadtxt(self._data_name_list[i- self._indexoffset - 1])
             channel_data_freq = channel_data[0:,1]
             channel_data_IL = 0.5*(channel_data[0:,5] + channel_data[0:,6])
             

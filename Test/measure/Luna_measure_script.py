@@ -48,6 +48,7 @@ def test(filepath, dutname):
     
     '''check if something wrong.''' 
     #print measurement information
+    print("---------------- Measurement Detail ---------------")
     luna.measDetail()
 
     #luna.fetchresult()
