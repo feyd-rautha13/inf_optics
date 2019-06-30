@@ -32,7 +32,7 @@ class telnet(object):
         except ConnectionError:
             print(self.__class__.__name__+ " connection failed!")
     
-    def close_telnet(self):
+    def close(self):
         self.tn.close()
         print(self.__class__.__name__+ ' closed!')
         

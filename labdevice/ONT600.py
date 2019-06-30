@@ -27,9 +27,9 @@ class ONT600_Mainframe(telnet):
         self._timeout = timeout
         super().__init__(host = self._host, port = self._port, timeout = self._timeout )
         
-        self.write('*prompt on')
+        telnet.write(self,'*prompt on')
         
-        port_list = self.query(":PRTM:LIST?", '\n>')
+        port_list = telnet.query(self,":PRTM:LIST?", '\n>')
         port_list = port_list.decode()      
         print(port_list)
 
@@ -40,14 +40,18 @@ class ONT600(telnet):
         self._port = port
         self._timeout = timeout
         super().__init__(host= self._host, port= self._port, timeout= self._timeout)
-        self.write('*prompt on')
-    
-    def ont_query(self, cmd, prompt = '\n>'):
         
-        return self.query(cmd, prompt)
+        self.write('*prompt on')
+
+########## --super class alternative method --- #######        
+    def write(self, cmd):
+        telnet.write(self,cmd)
     
-    def close_session(self):
-        self.close_telnet()        
+    def query(self, cmd, prompt = '\n>'):
+        return telnet.query(self,cmd, prompt)
+
+    def close(self):
+        telnet.close(self)        
         
     
         
