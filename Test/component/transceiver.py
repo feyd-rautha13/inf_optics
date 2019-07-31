@@ -235,11 +235,48 @@ class QSFPDD():
     @property
     def ModDisableAllLaser(self):
         self.dev.clear_buffer()
-        self.reg_set(0x10, 128,0)
+        self.reg_set(0x10, 130,0xFF)
     @property
     def ModEnableAllLaser(self):
         self.dev.clear_buffer()
-        self.reg_set(0x10, 128,0xFF) 
+        self.reg_set(0x10, 130,0x0)
+    def ModEnableSingle(self, lane=0):
+        self.dev.clear_buffer()
+        cmd = 0xFF ^ (1<<lane)
+        self.reg_set(0x10,130, cmd)
+        
+
+###############---Innolight SSPRQ---##############
+    def ModSSPRQ_Innolight(self):
+        self.dev.clear_buffer()
+        self.reg_set(0, 39, 0x01)
+        self.reg_set(0, 37, 0xCC)
+        
+        self.reg_set(0,122, 0xCA)
+        self.reg_set(0,123, 0x2D)
+        self.reg_set(0,124, 0x81)
+        self.reg_set(0,125, 0x5F)
+        
+        self.reg_set(129, 136, 0x85)
+        self.reg_set(129, 137, 0)
+        self.reg_set(129, 128, 0)
+        self.reg_set(129, 129, 0x1E)
+        self.reg_set(129, 130, 0x43)
+        self.reg_set(129, 131, 0x9C)
+        self.reg_set(129, 132, 0x02)
+        self.reg_set(129, 133, 0x40)
+        self.reg_set(129, 134, 0x03)
+
+#################--CMIS4.0 SSPRQ--##############
+    def ModSSPRQ_CMIS4(self):
+        self.dev.clear_buffer()
+        self.reg_set(0x13, 156, 0xCC)
+        self.reg_set(0x13, 157, 0xCC)
+        self.reg_set(0x13, 158, 0xCC)
+        self.reg_set(0x13, 159, 0xCC)
+        
+        self.reg_set(0x13, 152, 0x0F)
+
     
     
     

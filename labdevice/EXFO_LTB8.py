@@ -166,10 +166,39 @@ class LTB8(TCP):
         cmd = "LINS5:SENS:DATA:TEL:OPT:RX:POW? {0}".format(lane)
         data = self.query(cmd)
         data = float(data.decode().replace('\n',''))
-        return data        
+        return data    
+
+    def ModulePageSelect(self, page):
+        self.CLS()
         
+        cmd = "LINS5:SOUR:DATA:TEL:MDIO:PGS {0}".format(page)
+        self.write(cmd)
+    
+    def ModuleDataRead(self,offset):
+        self.CLS()
         
+        offset = format(offset, '#06x').replace('0x', '#H')
+        cmd = "LINS5:SOUR:DATA:TEL:MDIO:ADDR {0}".format(offset)
+        self.write(cmd)
+        self.write("LINS5:SOUR:DATA:TEL:MDIO:READ")
+        data = self.query("LINS5:SOUR:DATA:TEL:MDIO:DATA?")
+        data = data.decode().replace('\n','')
+        return data
+    
+    def ModuleDateWrite(self,offset, value):
+        self.CLS()
+        offset = format(offset, '#06x').replace('0x', '#H')
+        cmd = "LINS5:SOUR:DATA:TEL:MDIO:ADDR {0}".format(offset)
+        self.write(cmd)
         
+        value = format(value, '#06x').replace('0x', '#H')
+        cmd = "LINS5:SOUR:DATA:TEL:MDIO:DATA {0}".format(value)
+        self.write(cmd)
+        
+        self.write("LINS5:SOUR:DATA:TEL:MDIO:WRITE")
+      
+        
+   
         
         
         
