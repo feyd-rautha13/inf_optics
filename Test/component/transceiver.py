@@ -240,7 +240,7 @@ class QSFPDD():
     def ModEnableAllLaser(self):
         self.dev.clear_buffer()
         self.reg_set(0x10, 130,0x0)
-    def ModEnableSingle(self, lane=0):
+    def ModEnSingleLane(self, lane=0):
         self.dev.clear_buffer()
         cmd = 0xFF ^ (1<<lane)
         self.reg_set(0x10,130, cmd)
