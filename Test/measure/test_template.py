@@ -37,9 +37,7 @@ LTB_ip = "172.29.150.191"
 LTB_port = 5025
 
 # ------ class instance ------
-hal = groove_Hal(host = groove_ip,port = 8022, 
-                 username = 'administrator' , password = 'e2e!Net4u#',
-                 timeout = 10, halusername = 'su', halpassword = 'cosh1$')
+
 
 box = LTB8(LTB_ip, LTB_port)
 fr4 = QSFPDD(hal,1,8)
