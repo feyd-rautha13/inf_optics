@@ -6,28 +6,12 @@ __author__ = 'Sizhan Liu'
 __version__ = "1.0"
 
 '''
-Driver for Dicon GP700
+Driver for Dicon GP700, Twin 1x6 optical switch and 3 card 4 port 1x2 optical switch
+Recommand GPIB Address = 30.
 Reference: 
 '''
 
-#----- Add lib path ------
-interface_path = "D:\\work\\coding\\python\\inf_optics\\interface"
-component_path = "D:\\work\\coding\\python\\inf_optics\\Test\\component"
-device_path = "D:\\work\\coding\\python\\inf_optics\\labdevice"
 
-import sys
-sys.path.append(interface_path)
-sys.path.append(component_path)
-sys.path.append(device_path)
-
-
-from prologix import Prologix
-
-prologix_ip = '172.29.150.127'
-prologix_port = 1234
-GPIB_gp700 = 30
-
-prologix = Prologix(prologix_ip, prologix_port)
 
 class GP700(object):
     '''
@@ -98,16 +82,24 @@ class GP700(object):
         self.write(cmd)
 
 ################ -- 1x2 Switch -- #####################
-    def SSwitchStatus(self, port=1):
-        cmd = "P{0}?".format(port)
+    def SSwitchStatus(self, card=1):
+        '''
+        3 card, P1, P2, P3
+        4 Ports.
+        '''
+        cmd = "P{0}?".format(card)
         value = int(self.data_parse(self.query(cmd))) - 1
         value = format(value, '#06b')
         return value[-4:], int(value,2)
     
-    def SSwitchOut1(self, card=1, port=1):
+    def SSwitchOut2(self, card=1, port=1):
         '''
         card = [1:3]
         port = [1:4]
+
+        0--> out1 Left
+        1--> out2 Right
+
         '''
         status = self.SSwitchStatus(card)[1]
         value = 1<<(port-1)
@@ -117,10 +109,13 @@ class GP700(object):
         
         self.write(cmd)
         
-    def SSwitchOut2(self, card=1, port=1):
+    def SSwitchOut1(self, card=1, port=1):
         '''
         card = [1:3]
         port = [1:4]
+
+        0--> out1 Left
+        1--> out2 Right
         '''
         status = self.SSwitchStatus(card)[1]     
         value = 0xF - (1<<(port-1))
