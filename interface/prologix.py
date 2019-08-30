@@ -95,7 +95,8 @@ class Prologix(TCP):
 
         if flag == None: 
             data = self.read()
-        elif isinstance(self._endnumber, bytes):
+
+        elif isinstance(flag, bytes):            
             data = self.read(flag = flag, endnumber = endnumber)
         else:
             flag = str(flag).encode()
