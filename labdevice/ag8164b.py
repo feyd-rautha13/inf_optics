@@ -67,11 +67,16 @@ class AG8164B(object):
         self.write(value)
     
     @property
-    def attOutputPower(self):
+    def attOutPutPower(self):
         power = self.query("outp1:pow?")
         power = self.data_parse(power)
         power = float(power)
-        return power   
+        return power  
+    @attOutPutPower.setter
+    def attOutPutPower(self, power):
+        power = str(power)
+        cmd = "OUTP1:POW " + power
+        self.write(cmd)
 
     @property
     def attWav(self):

@@ -12,6 +12,7 @@ MS9710B input/output buffer 256 byte.
 #import time
 import re
 import numpy as np
+import matplotlib.pyplot as plt
 
 class MS9710B(object):
     '''
@@ -45,6 +46,17 @@ class MS9710B(object):
     @property
     def deviceID(self):
         return self.query("*IDN?")
+    
+    def ESR2(self):
+        try:
+            while(True):
+                temp = self.query("ESR2?")
+                if self.data_parse(temp) == '0':
+                    break
+                else:
+                    pass
+        except:
+            print("time out")
 #################### --data parse  -- ####################
     def data_parse(self, command):
         command = command.decode().replace("\r" , '')
@@ -146,6 +158,11 @@ class MS9710B(object):
         mpt = 'mpt ' + mpt
         self.write(mpt)
         
+    def osaSingleScan(self):
+        self.write("*CLS")
+        self.write("SSI")
+        self.ESR2()
+        
     
 ################## ---Get trace -- ###############################
     def osaGet_Y(self):
@@ -167,19 +184,40 @@ class MS9710B(object):
         '''
         X_axis = np.linspace(int(self.osaStaWav), int(self.osaStoWav), self.osaMPT)
         return X_axis
+       
+    def osaPlotTrace(self,lane=None):
+        x = self.osaGet_X()
+        y = self.osaGet_Y()
+        fig = plt.figure(figsize=(8,5))
+
+        ax1 = fig.add_subplot(111)
+        ax1.plot(x, y, label='Wavelength')
+
+        ax1.set_title('L{0} specturm'.format(lane))
+        ax1.set_xlabel('Wavelength(nm)')
+        ax1.set_ylabel('Power(dBm)')
+
+        plt.show()
+                
+################## ---Get paramter, peak center, SMSR -- ##############################
+        
+    def osaGetPeakWav(self):
+        self.write('PKS')
+        self.ESR2()
+        peak = self.data_parse(self.query("TMK?"))
+        peakwave = float(peak[0:peak.find(',')])
+        peakpower = float(peak[peak.find(',')+1 : ].lower().replace('dbm',''))
+        
+        self.write('PKS NEXT')
+        self.ESR2()
+        nextpeak = self.data_parse(self.query("TMK?"))
+        nextwave = float(nextpeak[0:nextpeak.find(',')])
+        nextpower = float(nextpeak[nextpeak.find(',')+1 : ].lower().replace('dbm',''))
+        
+        SMSR = peakpower - nextpower
+        
+        return peakwave,peakpower,nextwave,nextpower, SMSR
 
 
 
-'''
-osa.write("SSI")  #do a sigle sweep
-osa.query("ESR2?")  #check if finished
 
-Y = osa.osaGet_Y()
-
-X = osa.osaGet_X()
-
-z = np.array([X,Y])
-
-
-pl.plot(z[0,:], z[1,:], label = "Lwdm"),pl.legend()
-'''

@@ -17,6 +17,7 @@ __version__ = "1.0"
 import time
 import re
 import openpyxl
+import numpy as np
 
 class QSFPDD():
     '''
@@ -52,6 +53,20 @@ class QSFPDD():
         
         return data
     
+    def bit_set_one(self, value, offset):
+        '''
+        offset >= 0
+        '''
+        value |= 1<<offset
+        return value
+    
+    def bit_set_zero(self, value, offset):
+        '''
+        offset >= 0
+        '''
+        value &= ~(1<<offset)
+        return value
+    
     def password_entry(self):
         self.reg_set(0,118,0x00)
         self.reg_set(0,119,0x00)
@@ -59,7 +74,8 @@ class QSFPDD():
         self.reg_set(0,111,0x11)
         self.dev.clear_buffer()
 
-#Table-18 Table-19   
+#Table-18 Table-19
+#Table 8-2 CMIS4.0
     @property
     def ModState(self):
         self.dev.clear_buffer()
@@ -79,7 +95,8 @@ class QSFPDD():
         else:
             return 'Reserved'
         
-#Table 22 Module level Monitor
+#CMIS 3.0 Table 22 Module level Monitor
+#CMIS 4.0 Table 8-6 Module Monitors
     @property
     def ModMonCaseTemp(self):
         '''
@@ -244,6 +261,40 @@ class QSFPDD():
         self.dev.clear_buffer()
         cmd = 0xFF ^ (1<<lane)
         self.reg_set(0x10,130, cmd)
+
+#CMIS 3.0 Table 70
+#CMIS 4.0 Table 8-62        
+    def ModMonTxPwr(self,Lane):
+        '''
+        Lane 1:8
+        '''
+        self.dev.clear_buffer()
+        data = self.reg_get(0x11, 154+2*(Lane-1) ,2)
+        data = (int(data[0],16)*256+ int(data[0],16))*0.1/1000
+        data = 10*np.log10(data)
+        
+        return data
+    
+    def ModMonTxBias(self,Lane):
+        '''
+        Lane 1:8
+        '''
+        self.dev.clear_buffer()
+        data = self.reg_get(0x11, 170+2*(Lane-1) ,2)
+        data = (int(data[0],16)*256+ int(data[0],16))*2/1000
+        
+        return data
+    
+    def ModMonRxPwr(self,Lane):
+        '''
+        Lane 1:8
+        '''
+        self.dev.clear_buffer()
+        data = self.reg_get(0x11, 186+2*(Lane-1) ,2)
+        data = (int(data[0],16)*256+ int(data[0],16))*0.1/1000
+        data = 10*np.log10(data)
+        
+        return data
         
 
 ###############---Innolight SSPRQ---##############

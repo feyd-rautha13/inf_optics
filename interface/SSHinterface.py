@@ -117,11 +117,28 @@ class groove_cli(SSH):
         self.SSH_close()
         
     
-    def cli_interactive_mode(self, cmd = 'disabled'):
-        cmd = "set cli-config interactive-mode " + cmd
+    def cli_disable_interactive_mode(self):
+        cmd = "set cli-config interactive-mode disabled"
         self.clear_buffer()
         self.write(cmd)
-        self.write('y')
+
+        attempts = 0
+        success = False
+        
+        while(attempts < 10 and not success):
+            try:
+                time.sleep(1)
+                a = self.read_raw().decode()
+                if ("y/n" in a and len(a)>0) == True:
+                    self.write('y')
+                    success = True
+                elif ("y/n" not in a and len(a)>0) == True:
+                    success = True
+            
+            except:
+                attempts += 1
+                if attempts == 10:
+                    break
     
     @property
     def show_inventory(self):
