@@ -110,6 +110,16 @@ class LTB8(TCP):
         data = float(data.decode().replace('\n',''))
         return data
     
+    def PatternSync(self, lane = 0):
+        self.CLS()
+        cmd = "LINS5:FETCh:DATA:TEL:PATT:ALAR:SYNC? {0}".format(lane)
+        data = self.query(cmd)
+        data = data.decode().replace('\n','').lower()
+        if data == 'absent':
+            return 0
+        else:
+            return 1
+    
     def CurrentBERState(self, lane=8):
         for i in range(8):
             print("Lane {0} BER = ".format(i), self.BERperLane(i))

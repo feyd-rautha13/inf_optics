@@ -46,6 +46,7 @@ class SSH(object):
                 
 
         self.shell = self.ssh.invoke_shell()
+
     
     def SSH_close(self):
         self.ssh.close()
@@ -109,6 +110,11 @@ class groove_cli(SSH):
             print ('Login to Groove CLi successful!')
         else:
             print('login failed!')
+            
+        time.sleep(5)
+        self.cli_disable_interactive_mode()
+        time.sleep(5)
+        self.read_raw()
     
     def close_session(self):
         '''

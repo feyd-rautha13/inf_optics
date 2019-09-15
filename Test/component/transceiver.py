@@ -67,6 +67,13 @@ class QSFPDD():
         value &= ~(1<<offset)
         return value
     
+    def bit_get(self, value, offset):
+        '''
+        offset >=0
+        '''
+        value = (value>>offset)&0x01
+        return value
+    
     def password_entry(self):
         self.reg_set(0,118,0x00)
         self.reg_set(0,119,0x00)
@@ -261,6 +268,57 @@ class QSFPDD():
         self.dev.clear_buffer()
         cmd = 0xFF ^ (1<<lane)
         self.reg_set(0x10,130, cmd)
+
+#CMIS 3.0 Table 68
+#CMIS 4.0 Table 8-60 Tx Flags
+    def ModMonTxFault(self, lane):
+        '''
+        Lane 1:8
+        '''
+        self.dev.clear_buffer()
+        data = int(self.reg_get(0x11, 135, 1)[0],16)
+        data = self.bit_get(data, lane-1)
+        return data
+
+    def ModMonTxLos(self, lane):
+        '''
+        Lane 1:8
+        '''
+        self.dev.clear_buffer()
+        data = int(self.reg_get(0x11, 136, 1)[0],16)
+        data = self.bit_get(data, lane-1)
+        return data
+    
+    def ModMonTxCDRLoLLos(self, lane):
+        '''
+        Lane 1:8
+        '''
+        self.dev.clear_buffer()
+        data = int(self.reg_get(0x11, 137, 1)[0],16)
+        data = self.bit_get(data, lane-1)
+        return data
+
+
+#CMIS 3.0 Table 69
+#CMIS 4.0 Table 8-61 Rx Flags
+    def ModMonRxLos(self, lane):
+        '''
+        Lane 1:8
+        '''
+        self.dev.clear_buffer()
+        data = int(self.reg_get(0x11, 147, 1)[0],16)
+        data = self.bit_get(data, lane-1)
+        return data
+    
+    def ModMonRxCDRLoL(self, lane):
+        '''
+        Lane 1:8
+        '''
+        self.dev.clear_buffer()
+        data = int(self.reg_get(0x11, 148, 1)[0],16)
+        data = self.bit_get(data, lane-1)
+        return data        
+        
 
 #CMIS 3.0 Table 70
 #CMIS 4.0 Table 8-62        
