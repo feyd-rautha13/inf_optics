@@ -289,7 +289,7 @@ class QSFPDD():
         data = self.bit_get(data, lane-1)
         return data
     
-    def ModMonTxCDRLoLLos(self, lane):
+    def ModMonTxCDRLoL(self, lane):
         '''
         Lane 1:8
         '''
