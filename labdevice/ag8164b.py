@@ -102,6 +102,18 @@ class AG8164B(object):
         cmd = "INP1:OFFS " + offset + "dB"
         self.write(cmd)
 
+    @property
+    def attShutter(self):
+        cmd = "OUTP1:STAT?"
+        shutter_status = self.query(cmd)
+        shutter_status = self.data_parse(shutter_status)
+        return shutter_status
+    @attShutter.setter
+    def attShutter(self, status=0):
+        status = str(status)
+        cmd = "OUTP1:STAT " + status
+        self.write(cmd)
+
 ############### -- Power meter command --##########################
     @property
     def pmPower(self):
