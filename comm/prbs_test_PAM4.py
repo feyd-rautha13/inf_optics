@@ -13,8 +13,8 @@ import scipy.signal as sig
 pattern_length = 200
 prbs_type_1 = 31
 prbs_type_2 = 13
-Ts = 10001
-edge = 0.2
+Ts = 101
+edge = 0.3
 fsz = (8,5)
 
 #PRBS pattern sequence generation
@@ -89,7 +89,7 @@ temp_seq = np.convolve(pam_seq_pulse, p_shape)
 
 plot_eye(temp_seq, Ts, 0)
 
-plot_spectrum(temp_seq, int(Ts/30), 'PAM4')
+plot_spectrum(temp_seq, Ts, 'PAM4')
 
 
 
