@@ -112,10 +112,10 @@ class QSFPDD():
         self.dev.clear_buffer()
         data = self.reg_get(0,14,2)      
         data = (int(data[0],16)*256+int(data[1],16))/256
-        if data<128:
+        if data<127:
             return data 
         else: 
-            return data-128
+            return data-127
     
     @property
     def ModMonInpVcc(self):
