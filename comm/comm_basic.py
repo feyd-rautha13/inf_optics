@@ -8,7 +8,6 @@ Created on Sat Nov  9 22:23:09 2019
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.signal as sig
-from comm_basic import *
 #from commpy.filters import rrcosfilter
 
 pattern_length = 200
@@ -40,7 +39,7 @@ def encoder_grey(data):
 def gen_pulse(seq, Ts):
     a1 = int((Ts-1)/2)
     allzero = np.zeros((a1,len(seq)))
-    matrix1 = np.vstack((allzero,seq, allzero))
+    matrix1 = np.vstack((allzero, seq, allzero))
     matrix2 = np.reshape(matrix1, -1, order='F')
     
     return matrix2
@@ -56,6 +55,7 @@ def pulse_shape(high, low, pre_z, pre_raise, post_fall, post_z, total):
     
     return np.concatenate((pre_zero,pre_part,mid,post_part, post_zero ))
 
+
 #show eye
 def plot_eye(data, Ts, offset):
     plt.figure(figsize=fsz)
@@ -66,19 +66,7 @@ def plot_eye(data, Ts, offset):
             plt.plot(data[(offset+2*Ts*i):(offset+2*Ts*(i+1))])
         except:
             pass
-    plt.title('PAM4 EYE')
-    plt.show()
-    
-def plot_eye2(data, Ts, offset):
-    plt.figure(figsize=fsz)
-    x_range = int((len(data) - Ts + 1)/Ts)
-   
-    for i in np.arange(x_range-1):
-        try:
-            plt.scatter(np.arange(2*Ts),data[(offset+2*Ts*i):(offset+2*Ts*(i+1))], alpha=0.5)
-        except:
-            pass
-    plt.title('PAM4 EYE')
+    plt.title('eye')
     plt.show()
 
 def plot_spectrum(data, Ts, title):
@@ -87,36 +75,12 @@ def plot_spectrum(data, Ts, title):
     plt.plot(zz[:Ts])
     plt.title('{0} Specturm'.format(title))
     plt.show()
+    
+    
+def Noise_gen(length, sigma):
+    return 0.1*np.random.normal(1, sigma, (1, length))[0]
+    
 
-
-pg_seq_N = PRBS_gen(prbs_type_1, pattern_length)
-pg_seq_P = PRBS_gen(prbs_type_2, pattern_length)
-pg_seq = np.vstack((pg_seq_N,pg_seq_P))
-pam_seq = encoder_grey(pg_seq) 
-
-pam_seq_pulse = gen_pulse(pam_seq, Ts)
-
-p_shape = pulse_shape(1,0, 0,int(Ts*edge),int(Ts*edge), 0, int(Ts*(1+edge)))
-
-temp_seq = np.convolve(pam_seq_pulse, p_shape)
-
-pwr_d_temp_seq = np.sum(abs(temp_seq)**2)/len(temp_seq)
-snr = 22
-print(10*np.log(snr))
-pwr_d_noise = pwr_d_temp_seq/snr
-sigma = pwr_d_noise*Ts/2
-print(sigma)
-
-
-noise = Noise_gen(len(temp_seq),sigma)
- 
-
-temp_seq_1 = temp_seq + noise
-
-plot_eye(temp_seq_1, Ts, 0)
-#plot_eye2(temp_seq_1, Ts, 0)
-
-#plot_spectrum(temp_seq_1, Ts, 'PAM4')
 
 
 

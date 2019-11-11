@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""r
+"""
 Created on Sat Nov  9 22:23:09 2019
 
 @author: Luna
@@ -8,7 +8,7 @@ Created on Sat Nov  9 22:23:09 2019
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.signal as sig
-#from commpy.filters import rrcosfilter
+from commpy.filters import rcosfilter
 
 pattern_length = 200
 prbs_type_1 = 31
@@ -22,7 +22,6 @@ def PRBS_gen(prbstype, pattern_length):
     pg_seq = sig.max_len_seq(nbits=prbstype, length=pattern_length)[0]
     
     return pg_seq
-
 
 #Grey encoding
 def encoder_grey(data):
@@ -40,7 +39,7 @@ def encoder_grey(data):
 def gen_pulse(seq, Ts):
     a1 = int((Ts-1)/2)
     allzero = np.zeros((a1,len(seq)))
-    matrix1 = np.vstack((allzero,seq, allzero))
+    matrix1 = np.vstack((allzero, seq, allzero))
     matrix2 = np.reshape(matrix1, -1, order='F')
     
     return matrix2
@@ -55,8 +54,6 @@ def pulse_shape(high, low, pre_z, pre_raise, post_fall, post_z, total):
     mid = high*np.ones(total - pre_z - pre_raise - post_fall- post_z) 
     
     return np.concatenate((pre_zero,pre_part,mid,post_part, post_zero ))
-
-
 
 
 #show eye
@@ -84,10 +81,13 @@ seq2 = gen_pulse(seq1, Ts)
 
 p_shape = pulse_shape(1,0, 0,int(Ts*edge),int(Ts*edge), 0, int(Ts*(1+edge)))
 
+#p_shape = rcosfilter(int(Ts*(1+edge)), 1, 100, 20)[1]
+
 final_1 = np.convolve(seq2, p_shape)
 
+plt.plot(p_shape)
 plot_eye(final_1, Ts, 0)
-plot_spectrum(final_1, Ts, 'NRZ')
+#plot_spectrum(final_1, Ts, 'NRZ')
 
 
 
