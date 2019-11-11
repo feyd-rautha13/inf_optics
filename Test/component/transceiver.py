@@ -130,10 +130,10 @@ class QSFPDD():
         self.dev.clear_buffer()
         data = self.reg_get(0,20,2)
         data = (int(data[0],16)*256+ int(data[0],16))/256
-        if data<128:
+        if data<127:
             return data    
         else: 
-            return data-128    
+            return data-127    
 #Table 27
     @property
     def ModVendorName(self):
@@ -235,6 +235,27 @@ class QSFPDD():
                 wb.close()
         return string
     
+    def ModGetEEpromString(self):
+        self.dev.clear_buffer()
+        data1 = self.reg_get(0x03, 128, 120)
+        data2 = data1.copy()
+        del(data2[-2:])
+        
+        s1 = data1[-1]
+        s2 = data1[-2]
+        
+        raw1 = ''
+        raw2 = ''
+        
+        for i in data1:
+            raw1 += i
+        for i in data2:
+            raw2 += i
+        totaldata = raw2 + s1 + s2
+        
+        return raw1, raw2, totaldata
+        
+    
     def GenCRCCode(self, data):
         length = int(len(data)/2)
         crc = 0xffff
@@ -254,6 +275,14 @@ class QSFPDD():
         for i in eeprom:
             s += i
         return s
+    
+    def CRCcheck_infinera(self):
+        data = self.ModGetEEpromString()[2]
+        result = self.GenCRCCode(data)
+        if result == '0x0':
+            print('Pass')
+        else:
+            print('Fail!')
 
 #Table 54
     @property
@@ -264,9 +293,13 @@ class QSFPDD():
     def ModEnableAllLaser(self):
         self.dev.clear_buffer()
         self.reg_set(0x10, 130,0x0)
-    def ModEnSingleLane(self, lane=0):
+    
+    def ModEnSingleLane(self, lane):
+        '''
+        lane = 1:8
+        '''
         self.dev.clear_buffer()
-        cmd = 0xFF ^ (1<<lane)
+        cmd = 0xFF ^ (1<<(lane-1))
         self.reg_set(0x10,130, cmd)
 
 #CMIS 3.0 Table 68
@@ -307,6 +340,8 @@ class QSFPDD():
         '''
         self.dev.clear_buffer()
         data = int(self.reg_get(0x11, 147, 1)[0],16)
+        self.dev.clear_buffer()
+        data = int(self.reg_get(0x11, 147, 1)[0],16)
         data = self.bit_get(data, lane-1)
         return data
     
@@ -314,6 +349,8 @@ class QSFPDD():
         '''
         Lane 1:8
         '''
+        self.dev.clear_buffer()
+        data = int(self.reg_get(0x11, 148, 1)[0],16)
         self.dev.clear_buffer()
         data = int(self.reg_get(0x11, 148, 1)[0],16)
         data = self.bit_get(data, lane-1)
@@ -377,16 +414,157 @@ class QSFPDD():
         self.reg_set(129, 134, 0x03)
 
 #################--CMIS4.0 SSPRQ--##############
-    def ModSSPRQ_CMIS4(self):
+    def ModMediaPG_CMIS4(self, pattern = 0x0C):
         self.dev.clear_buffer()
-        self.reg_set(0x13, 156, 0xCC)
-        self.reg_set(0x13, 157, 0xCC)
-        self.reg_set(0x13, 158, 0xCC)
-        self.reg_set(0x13, 159, 0xCC)
+        '''
+        Pattern generator.
+        0: PRBS31Q, 2: PRBS23Q, 4:PRBS15Q, 6:PRBS13Q, 8:PRBS9Q, 10:PRBS7Q
+        12: SSPRQ
+        '''
+        pattern = pattern*256 + pattern
+        self.reg_set(0x13, 156, pattern)
+        self.reg_set(0x13, 157, pattern)
+        self.reg_set(0x13, 158, pattern)
+        self.reg_set(0x13, 159, pattern)
         
         self.reg_set(0x13, 152, 0x0F)
+    
+    def ModHostPG_CMIS4(self, pattern = 6):
+        self.dev.clear_buffer()
+        '''
+        Pattern generator.
+        0: PRBS31Q, 2: PRBS23Q, 4:PRBS15Q, 6:PRBS13Q, 8:PRBS9Q, 10:PRBS7Q
+        12: SSPRQ
+        '''
+
+        pattern = pattern*256 + pattern
+        self.reg_set(0x13, 148, pattern)
+        self.reg_set(0x13, 149, pattern)
+        self.reg_set(0x13, 150, pattern)
+        self.reg_set(0x13, 151, pattern)
+        
+        self.reg_set(0x13, 144, 0xFF)
+        
+class QSFP28():
+    '''
+    Compatible with  SFF-5636 Rev 2.9
+    '''
+    def __init__(self, interface, card = 1, port = 8, cardtype=0):
+        '''
+        initial QSFP-28;
+        dev as a groove Hal instance.
+        cardype:
+            0: CHM2/CHM2T
+            1: CHM1
+        '''
+        self.card = card
+        self.port = port
+        self.dev = interface
+        self.cardtype = cardtype
+    def reg_set(self, page = 0x00, offset = 0x00, value = 0x00):
+        
+        address = format(page*256+offset, '#06x')
+        if self.cardtype==0:
+            cmd = "hw {0} qsfp {1} ww {2} {3}".format(self.card, self.port, address, value)
+        elif self.cardtype == 1:
+            cmd = "hw {0} qsfp28 {1} ww {2} {3}".format(self.card, self.port, address, value)
+        else:
+            pass
+        
+        self.dev.write(cmd)
+    
+    def reg_get(self, page = 0x00, offset = 0x00, length = 128):
+        
+        address = format(page*256+offset, '#06x')
+        if self.cardtype==0:
+            cmd = "hw {0} qsfp {1} rr {2} {3}".format(self.card, self.port, address, length)
+        elif self.cardtype == 1:
+            cmd = "hw {0} qsfp28 {1} rr {2} {3}".format(self.card, self.port, address, length)
+        else:
+            pass
+        
+        self.dev.clear_buffer()
+        self.dev.write(cmd)
+        data = self.dev.read_raw().decode()
+        data = re.split(r'\r|\n', data)
+        data = [x for x in data if x != ''][1: length+1]
+        data = [ x[-2:] for x in data]
+        
+        return data
+    
+    def bit_set_one(self, value, offset):
+        '''
+        offset >= 0
+        '''
+        value |= 1<<offset
+        return value
+    
+    def bit_set_zero(self, value, offset):
+        '''
+        offset >= 0
+        '''
+        value &= ~(1<<offset)
+        return value
+    
+    def bit_get(self, value, offset):
+        '''
+        offset >=0
+        '''
+        value = (value>>offset)&0x01
+        return value
+    #####################################################
+    # Table 6-16
+    @property
+    def ModVendorPN(self):
+        self.dev.clear_buffer()
+        s = ''
+        data = self.reg_get(0,168,16)
+        data = [chr(int(x,16)) for x in data]
+        for i in data:
+            s +=i
+        return s     
+
+    ###################CRC check#########################
+    def ModGetEEpromString(self):
+        self.dev.clear_buffer()
+        data1 = self.reg_get(0x02, 128, 120)
+        data2 = data1.copy()
+        del(data2[-2:])
+        
+        s1 = data1[-1]
+        s2 = data1[-2]
+        
+        raw1 = ''
+        raw2 = ''
+        
+        for i in data1:
+            raw1 += i
+        for i in data2:
+            raw2 += i
+        totaldata = raw2 + s1 + s2
+        
+        return raw1, raw2, totaldata
+        
+    
+    def GenCRCCode(self, data):
+        length = int(len(data)/2)
+        crc = 0xffff
+        for i in range(length):
+            flag = int(data[2*i:2*i+2],16)
+            crc ^= flag
+            for i in range(8):
+                last = crc%2
+                crc >>= 1
+                if last==1:
+                    crc ^= 0xa001
+        return hex(crc)
 
     
-    
-    
-    
+    def CRCcheck_infinera(self):
+        data = self.ModGetEEpromString()[2]
+        result = self.GenCRCCode(data)
+        if result == '0x0':
+            print('Pass')
+        else:
+            print('Fail!')
+#################################################################
