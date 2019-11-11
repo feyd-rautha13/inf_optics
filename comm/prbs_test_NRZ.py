@@ -14,6 +14,7 @@ pattern_length = 200
 prbs_type_1 = 31
 prbs_type_2 = 13
 Ts = 10001
+edge = 0.2
 fsz = (8,5)
 
 #PRBS pattern sequence generation
@@ -31,8 +32,9 @@ def encoder_grey(data):
     for i in np.arange(data_len):
         stin = str(data[:,i][0])+str(data[:,i][1])
         grey_output.append(grey[stin])
+    grey_output = [x/3 for x in grey_output]
     
-    return grey_output/4
+    return grey_output
 
 #pluse generation
 def gen_pulse(seq, Ts):
@@ -44,8 +46,8 @@ def gen_pulse(seq, Ts):
     return matrix2
     
 
-# Post shape
-def post_shape(high, low, pre_z, pre_raise, post_fall, post_z, total):
+# Pulse shape
+def pulse_shape(high, low, pre_z, pre_raise, post_fall, post_z, total):
     pre_zero = np.zeros(pre_z)
     post_zero = np.zeros(post_z)
     pre_part = np.linspace(low,high,pre_raise)
@@ -80,14 +82,14 @@ def plot_spectrum(data, Ts, title):
 seq1 = PRBS_gen(prbs_type_1, pattern_length)
 seq2 = gen_pulse(seq1, Ts)
 
-p_shape = post_shape(1,0, 0,300,300, 0, Ts+300)
-
+p_shape = pulse_shape(1,0, 0,int(Ts*edge),int(Ts*edge), 0, int(Ts*(1+edge)))
 
 final_1 = np.convolve(seq2, p_shape)
 
-plot_spectrum(final_1, int(Ts/20), 'NRZ')
+plot_eye(final_1, Ts, 0)
+plot_spectrum(final_1, int(Ts/30), 'NRZ')
 
-#plot_eye(final_1, Ts, 0)
+
 
 
 

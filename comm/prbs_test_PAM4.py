@@ -14,6 +14,7 @@ pattern_length = 200
 prbs_type_1 = 31
 prbs_type_2 = 13
 Ts = 10001
+edge = 0.2
 fsz = (8,5)
 
 #PRBS pattern sequence generation
@@ -82,13 +83,13 @@ pam_seq = encoder_grey(pg_seq)
 
 pam_seq_pulse = gen_pulse(pam_seq, Ts)
 
-p_shape = pulse_shape(1,0, 0,300,300, 0, Ts+300)
+p_shape = pulse_shape(1,0, 0,int(Ts*edge),int(Ts*edge), 0, int(Ts*(1+edge)))
 
 temp_seq = np.convolve(pam_seq_pulse, p_shape)
 
-#plot_eye(temp_seq, Ts, 0)
+plot_eye(temp_seq, Ts, 0)
 
-plot_spectrum(temp_seq, int(Ts/20), 'PAM4')
+plot_spectrum(temp_seq, int(Ts/30), 'PAM4')
 
 
 
