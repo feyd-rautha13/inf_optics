@@ -23,12 +23,17 @@ seq2 = gen_pulse(seq1, Ts)
 p_shape = pulse_shape(1,0, 0,int(Ts*edge),int(Ts*edge), 0, int(Ts*(1+edge)))
 final_1 = np.convolve(seq2, p_shape)
 
-pwr_d_temp_seq = np.sum(abs(final_1)**2)/len(final_1)
-snr = 50.6
-print(10*np.log(snr))
-pwr_d_noise = pwr_d_temp_seq/snr
-sigma = pwr_d_noise*Ts/2
-print(sigma)
+pwr_d_temp_seq = np.sum(abs(final_1)**2)
+
+snr = 21.5#dB
+snr_d = 10**(snr/10)
+print('SNR is ',snr_d)
+
+pwr_d_noise = pwr_d_temp_seq/snr_d
+print('Noise power',pwr_d_noise)
+
+sigma = np.sqrt(pwr_d_noise/snr_d)
+print('sigma is',sigma)
 
 noise = Noise_gen(len(final_1),sigma)
 

@@ -75,7 +75,7 @@ def plot_eye2(data, Ts, offset):
    
     for i in np.arange(x_range-1):
         try:
-            plt.scatter(np.arange(2*Ts),data[(offset+2*Ts*i):(offset+2*Ts*(i+1))], alpha=0.5)
+            plt.scatter(np.arange(2*Ts),data[(offset+2*Ts*i):(offset+2*Ts*(i+1))], alpha=0.7)
         except:
             pass
     plt.title('PAM4 EYE')
@@ -100,12 +100,17 @@ p_shape = pulse_shape(1,0, 0,int(Ts*edge),int(Ts*edge), 0, int(Ts*(1+edge)))
 
 temp_seq = np.convolve(pam_seq_pulse, p_shape)
 
-pwr_d_temp_seq = np.sum(abs(temp_seq)**2)/len(temp_seq)
-snr = 22
-print(10*np.log(snr))
-pwr_d_noise = pwr_d_temp_seq/snr
-sigma = pwr_d_noise*Ts/2
-print(sigma)
+pwr_d_temp_seq = np.sum(abs(temp_seq)**2)
+
+snr = 30#dB
+snr_d = 10**(snr/10)
+print('SNR is ',snr_d)
+
+pwr_d_noise = pwr_d_temp_seq/snr_d
+print('Noise power',pwr_d_noise)
+
+sigma = np.sqrt(pwr_d_noise/snr_d)
+print('sigma is',sigma)
 
 
 noise = Noise_gen(len(temp_seq),sigma)
@@ -114,7 +119,7 @@ noise = Noise_gen(len(temp_seq),sigma)
 temp_seq_1 = temp_seq + noise
 
 plot_eye(temp_seq_1, Ts, 0)
-#plot_eye2(temp_seq_1, Ts, 0)
+plot_eye2(temp_seq_1, Ts, 0)
 
 #plot_spectrum(temp_seq_1, Ts, 'PAM4')
 
