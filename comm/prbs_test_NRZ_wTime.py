@@ -111,12 +111,13 @@ t_axis_final = ts*np.arange(len(final_1))
 fftfft = 20*np.log10(np.fft.fftshift(np.fft.fft(final_1)))
 fff =fs* (np.arange(len(final_1)) - len(final_1)/2 + 1)/ len(final_1) 
 
-#plt.plot(p_shape)
-#plot_eye(final_1, sample_num, 0)
-#plot_spectrum(final_1, sample_num, 'NRZ')
+'''
+plt.plot(p_shape)
+plot_eye(final_1, sample_num, 0)
+plot_spectrum(final_1, sample_num, 'NRZ')
 
 
-
+'''
 
 
 

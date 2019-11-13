@@ -96,7 +96,7 @@ class transmitter():
     
         
 # instance
-tr_x = transmitter(1000,0.2,33)
+tr_x = transmitter(1000,0.2,2**5+1)
 #sequence
 s0 = tr_x.genPRBS(31, 100)
 s1 = tr_x.genPRBS(7,100)
@@ -112,6 +112,12 @@ grey_impulse = tr_x.genImpuls(grey_seq,  tr_x.sample_num)
 
 #waveform generate
 wav_seq = tr_x.genWavform(grey_impulse, p_shape, tr_x.ts)
+
+
+#fft
+ffx = np.abs(np.fft.fft(wav_seq[1]))
+ffx = 20*np.log10(np.abs(np.fft.fft(wav_seq[1])))
+plt.plot(ffx)
 
 
 
