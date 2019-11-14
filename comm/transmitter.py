@@ -64,15 +64,16 @@ class transmitter():
             grey_code = [(i^(i>>1)) for i in grey_code]
             return grey_code
     
-    def genImpuls(self, seq, sample_num):
+    def genImpuls(self, seq, sample_num, ts=1):
         '''
         return with sampling points
         '''
         a1 = int((sample_num-1)/2)
         allzero = np.zeros((a1,len(seq)))
         puls_matrix = np.vstack((allzero,seq,allzero)).reshape((-1), order='F')
-        return puls_matrix
+        t_axis = ts*np.arange(len(puls_matrix))
         
+        return t_axis, puls_matrix
         
         
     def pulseShape(self,high,low,pre_z,post_z,raising,falling,total):
