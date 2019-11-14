@@ -9,7 +9,7 @@ import scipy.signal as sig
 import matplotlib.pyplot as plt
 
 class transmitter():
-    def __init__(self, BaudRate=1.25E9, tra_time= 0.001, sample_num = 33):
+    def __init__(self, BaudRate=1.25E9, trans_time= 0.001, sample_num = 33):
         '''
         Generate a sequence
         Baudrate symbol bandrate, unit symbol/s
@@ -22,7 +22,8 @@ class transmitter():
 
         self.baudrate = BaudRate
         self.Tsym = 1/BaudRate
-        self.trans_time = tra_time
+        self.trans_time = trans_time
+        self.seq_num = BaudRate*trans_time
         self.sample_num = sample_num
 
         self.ts = 1/(self.baudrate*(self.sample_num-1))
@@ -74,16 +75,30 @@ class transmitter():
         t_axis = ts*np.arange(len(puls_matrix))
         
         return t_axis, puls_matrix
+    
         
         
-    def pulseShape(self,high,low,pre_z,post_z,raising,falling,total):
-        pre_low = low*np.ones(pre_z)
-        post_low = low*np.ones(post_z)
-        raising_part = np.linspace(low,high,raising)
-        falling_part = np.linspace(high,low,falling)
-        mid = high*np.ones(total-pre_z-post_z-raising-falling)
+    def pulseShape(self,high=1,low=0,raise_duty=0.15,fall_duty=0.15,sample_num=100,ts=1):
+        '''
+        high: level 1
+        low: level 0
+        rasie_duty: 0 <= raise_duty < 0.5
+        fall_duty: 0<= fall duty < 0.5
+        sample_num : equals to self.sample number
+        '''
+        raise_num = int(sample_num*raise_duty)
+        fall_num = int(sample_num*fall_duty)
+        total = sample_num + int(0.5*(raise_num + fall_num))
         
-        return np.concatenate((pre_low,raising_part,mid,falling_part,post_low))
+        raising_part = np.linspace(low,high,raise_num)
+        falling_part = np.linspace(high,low,fall_num)
+        mid = high*np.ones(total - raise_num - fall_num)
+        
+        
+        amplitude = np.concatenate((raising_part,mid,falling_part))
+        t_axis = ts*np.arange(len(amplitude))
+       
+        return t_axis, amplitude
     
     def genWavform(self,sequence, pulseShape, ts=1):
         '''
@@ -94,40 +109,80 @@ class transmitter():
         
         return t_axis,amplitude
     
-    
+    def genWaveWithNoise(self, seq, SNR, ts=1):
+        '''
+        SNR: logarithmic, unit dB.
+        '''
+        SNR = 10**(SNR/10)
+        pwr_seq = np.sum(np.square(seq))/len(seq)
         
+        pwr_noise = pwr_seq/SNR
+        sigma = np.sqrt(pwr_noise)
+        noise = np.random.normal(0, sigma, len(seq))
+        wav = seq + noise
+        t_axis = ts*np.arange(len(wav))
+        
+        return t_axis, wav
+    
+    def plot_eye(self, seq, shape_len, sample_num, offset, ts=1):
+        plt.figure(1, figsize=(8,5))
+        x_range = int((len(seq) - shape_len +1)/sample_num)
+        
+        t_axis = ts*np.arange(2*sample_num)
+        
+        for i in np.arange(x_range):
+            try:
+                plt.plot(t_axis,seq[(offset+2*sample_num*i):(offset+2*sample_num*(i+1))])
+            except:
+                pass
+        plt.title("Eye Diagram")
+        plt.show()
+        
+    def plot_spectrum(self, seq, ts=1):
+        amp = 20*np.log10(np.abs(np.fft.fft(seq)))
+        x_axis = np.fft.fftfreq(len(amp), ts)
+        
+        plt.figure(figsize=(8,5))
+        plt.plot(x_axis[x_axis>=0], amp[x_axis>=0])
+        plt.show()
+    
+    def CDR_spectrum(self,seq, ts=1):
+        amp = np.square(seq)
+        cdr = 20*np.log10(np.abs(np.fft.fft(amp)))
+        x_axis = np.fft.fftfreq(len(amp), ts)
+        
+        plt.figure(figsize=(8,5))
+        plt.plot(x_axis[x_axis>=0], cdr[x_axis>=0])
+        plt.show()       
+        
+        
+        
+        
+       
 # instance
-tr_x = transmitter(1000,0.2,2**5+1)
+tr_x = transmitter(1E6,0.001,2**5+1)
 #sequence
-s0 = tr_x.genPRBS(31, 100)
-s1 = tr_x.genPRBS(7,100)
+s0 = tr_x.genPRBS(31, tr_x.seq_num)
+s1 = tr_x.genPRBS(7,tr_x.seq_num)
 
 #encoder
 grey_seq = tr_x.genGrey(s0,s1)
 
 #pulse shapiping
-p_shape = tr_x.pulseShape(1,0.01,0,0,int(33*0.2),int(33*0.2),int(33*(1+0.2)))
+xt_pshape, amp_pshape = tr_x.pulseShape(1,0, 0.2,0.2,tr_x.sample_num, tr_x.ts)
 
 #impulse generation
-grey_impulse = tr_x.genImpuls(grey_seq,  tr_x.sample_num)
+xt_grey_impulse, amp_grey_impulse = tr_x.genImpuls(grey_seq, tr_x.sample_num, tr_x.ts)
 
 #waveform generate
-wav_seq = tr_x.genWavform(grey_impulse, p_shape, tr_x.ts)
+xt_pam, wav_pam = tr_x.genWavform(amp_grey_impulse, amp_pshape, tr_x.ts)
 
+#waveform with noise generate
+xt_pam_noz, wav_pam_noz = tr_x.genWaveWithNoise(wav_pam, 31, tr_x.ts)
 
-#fft
-ffx = np.abs(np.fft.fft(wav_seq[1]))
-ffx = 20*np.log10(np.abs(np.fft.fft(wav_seq[1])))
-plt.plot(ffx)
-
-
-
-
-
-
-
-
-
+tr_x.plot_eye(wav_pam_noz,len(amp_pshape), tr_x.sample_num, 0, tr_x.ts)
+tr_x.plot_spectrum(wav_pam, tr_x.ts)
+tr_x.CDR_spectrum(wav_pam, tr_x.ts)
 
 
 
