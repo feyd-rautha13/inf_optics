@@ -160,7 +160,7 @@ class transmitter():
         
        
 # instance
-tr_x = transmitter(1E6,0.001,2**5+1)
+tr_x = transmitter(1E9,1E-6,2**5+1)
 #sequence
 s0 = tr_x.genPRBS(31, tr_x.seq_num)
 s1 = tr_x.genPRBS(7,tr_x.seq_num)
@@ -180,9 +180,10 @@ xt_pam, wav_pam = tr_x.genWavform(amp_grey_impulse, amp_pshape, tr_x.ts)
 #waveform with noise generate
 xt_pam_noz, wav_pam_noz = tr_x.genWaveWithNoise(wav_pam, 31, tr_x.ts)
 
+'''
 tr_x.plot_eye(wav_pam_noz,len(amp_pshape), tr_x.sample_num, 0, tr_x.ts)
 tr_x.plot_spectrum(wav_pam, tr_x.ts)
 tr_x.CDR_spectrum(wav_pam, tr_x.ts)
-
+'''
 
 
