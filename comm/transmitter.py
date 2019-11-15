@@ -138,29 +138,29 @@ class transmitter():
         plt.title("Eye Diagram")
         plt.show()
         
-    def plot_spectrum(self, seq, ts=1):
+    def genSpectrum(self, seq, ts=1):
         amp = 20*np.log10(np.abs(np.fft.fft(seq)))
-        x_axis = np.fft.fftfreq(len(amp), ts)
-        
-        plt.figure(figsize=(8,5))
-        plt.plot(x_axis[x_axis>=0], amp[x_axis>=0])
-        plt.show()
+        amp = np.fft.fftshift(amp)
+        f_xaxis = np.fft.fftfreq(len(amp),ts)
+        f_xaxis = np.fft.fftshift(f_xaxis)
+
+        return f_xaxis[f_xaxis>=0], amp[f_xaxis>=0]
     
-    def CDR_spectrum(self,seq, ts=1):
-        amp = np.square(seq)
-        cdr = 20*np.log10(np.abs(np.fft.fft(amp)))
-        x_axis = np.fft.fftfreq(len(amp), ts)
-        
-        plt.figure(figsize=(8,5))
-        plt.plot(x_axis[x_axis>=0], cdr[x_axis>=0])
-        plt.show()       
+    def genCDRspectrum(self,seq, ts=1):
+        amp = np.square(np.abs(seq))
+        amp = 20*np.log10(np.abs(np.fft.fft(amp)))
+#        amp = np.fft.fftshift(amp)
+        f_xaxis = np.fft.fftfreq(len(amp),ts)
+#        f_xaxis = np.fft.fftshift(f_xaxis)
+ 
+        return f_xaxis[f_xaxis>=0], amp[f_xaxis>=0]
         
         
         
         
        
 # instance
-tr_x = transmitter(1E9,1E-6,2**5+1)
+tr_x = transmitter(1000,1,2**5+1)
 #sequence
 s0 = tr_x.genPRBS(31, tr_x.seq_num)
 s1 = tr_x.genPRBS(7,tr_x.seq_num)
@@ -180,8 +180,22 @@ xt_pam, wav_pam = tr_x.genWavform(amp_grey_impulse, amp_pshape, tr_x.ts)
 #waveform with noise generate
 xt_pam_noz, wav_pam_noz = tr_x.genWaveWithNoise(wav_pam, 31, tr_x.ts)
 
+# spectrum generation
+x_fpam, f_amp_pam = tr_x.genSpectrum(wav_pam, tr_x.ts)
+plt.figure(1,figsize=(8,5))
+plt.plot(x_fpam[x_fpam<=2*tr_x.baudrate], f_amp_pam[x_fpam<=2*tr_x.baudrate])
+plt.title("spectrum")
+plt.show()
+
+# clock generation
+x_f_clock, f_amp_clock = tr_x.genCDRspectrum(wav_pam, tr_x.ts)
+plt.figure(1,figsize=(8,5))
+plt.plot(x_f_clock[x_f_clock<=2*tr_x.baudrate], f_amp_clock[x_f_clock<=2*tr_x.baudrate])
+plt.title("Clock")
+plt.show()
+
+
 '''
-tr_x.plot_eye(wav_pam_noz,len(amp_pshape), tr_x.sample_num, 0, tr_x.ts)
 tr_x.plot_spectrum(wav_pam, tr_x.ts)
 tr_x.CDR_spectrum(wav_pam, tr_x.ts)
 '''
