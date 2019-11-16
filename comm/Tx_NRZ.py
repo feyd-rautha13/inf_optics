@@ -11,14 +11,17 @@ NRZ
 
 from transmitter import Transmitter
 import matplotlib.pyplot as plt
+import numpy as np
+import scipy.signal as sig
 
-baudrate = 2E9
-run_point = 3E3
-samples = 2**5+1
-
-
-snr = 31
 n=1
+baudrate = 2E9
+run_point = 1000*n
+samples = 2**6+1
+
+
+snr = 22
+
 
 
 tr = Transmitter(baudrate,run_point, samples)
@@ -28,7 +31,11 @@ s1 = tr.genGreySerial(s0, 2**n)
 # PRBS impluse
 nrz_tx, nrz_pulse = tr.genImpuls(s1, samples, tr.ts)
 #pulse shape
-pshape_tx, pshape = tr.pulseShape(1,0,0.4,0.4,samples, tr.ts)
+pshape_tx, pshape = tr.pulseShape(1,0,0.2,0.2,samples, tr.ts)
+#pshape = sig.windows.hann(int(samples*1.7))
+#fft_pshape = 20*np.log10(np.abs(np.fft.fft(pshape)))
+
+
 #PRBS waveform
 nrz_w_tx, nrz_w = tr.genWavform(nrz_pulse, pshape, tr.ts)
 #noise
