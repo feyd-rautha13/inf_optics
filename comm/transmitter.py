@@ -160,18 +160,3 @@ class Transmitter():
         return f_xaxis[f_xaxis>=0], amp[f_xaxis>=0]
         
         
-        
-        
-       
-
-
-
-
-
-
-
-
-
-
-
-
