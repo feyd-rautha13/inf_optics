@@ -69,18 +69,10 @@ class Transmitter():
     
     def genImpuls(self, seq, sample_num, ts=1):
         '''
+        generate impuls
         return with sampling points
         '''
-#        a1 = int((sample_num-1)/2)
-#        a2 = int((sample_num-1)/2-1)
-#
-#        allzero_pre = np.zeros((a1,len(seq)))
-#        allzero_post = np.zeros((a2, len(seq)))
-#        pulse_matrix = np.vstack((allzero_pre,seq,allzero_post)).reshape((-1), order='F')
-#        pulse_matrix = np.concatenate((pulse_matrix,[0]))
-#        t_axis = ts*np.arange(len(pulse_matrix))
-        
-        
+       
         a0 = int((sample_num-1)/2)
         allzeros = np.zeros((a0, len(seq)))
         pulse_matrix = np.vstack((allzeros, seq, allzeros)).reshape((-1), order='F')
@@ -103,13 +95,10 @@ class Transmitter():
         fall_num = int(sample_num*fall_duty)
         total = sample_num + int(0.5*(raise_num + fall_num))
 
-#        total = sample_num
-        
         raising_part = np.linspace(low,high,raise_num)
         falling_part = np.linspace(high,low,fall_num)
         mid = high*np.ones(total - raise_num - fall_num)
-        
-        
+
         amplitude = np.concatenate((raising_part,mid,falling_part))
         t_axis = ts*np.arange(len(amplitude))
        
@@ -141,18 +130,6 @@ class Transmitter():
     
     def plot_eye(self, seq, len_shape, sample_num, offset, ts=1):
         plt.figure(1, figsize=(8,5))
-#        x_range = int((len(seq) - shape_len +1)/sample_num)
-#
-#        
-#        t_axis = ts*np.arange(2*sample_num)
-#        t_axis = ts*np.arange(step_num+1)
-#        
-#        for i in np.arange(x_range):
-#            try:
-#                plt.plot(t_axis,seq[(offset+2*sample_num*i):(offset+2*sample_num*(i+1))])
-#            except:
-#                pass
-            
         cycle = int(((len(seq) - len_shape + 1)/sample_num/2)) #baudrate * trans_time/2
         step_num = 2*sample_num  
         t_axis = ts*np.arange(step_num+1)
