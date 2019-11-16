@@ -8,7 +8,7 @@ import numpy as np
 import scipy.signal as sig
 import matplotlib.pyplot as plt
 
-class transmitter():
+class Transmitter():
     def __init__(self, BaudRate=1.25E9, trans_time= 0.001, sample_num = 33):
         '''
         Generate a sequence
@@ -26,8 +26,10 @@ class transmitter():
         self.seq_num = BaudRate*trans_time
         self.sample_num = sample_num
 
-        self.ts = 1/(self.baudrate*(self.sample_num-1))
-        self.fs = self.baudrate*(sample_num-1)
+#        self.ts = 1/(self.baudrate*(self.sample_num-1))
+        self.ts = 1/(self.baudrate*self.sample_num)
+#        self.fs = self.baudrate*(sample_num-1)
+        self.fs = self.baudrate*sample_num
 
     def genPRBS(self, prbs_type, pattern_length):
         '''
@@ -69,12 +71,23 @@ class transmitter():
         '''
         return with sampling points
         '''
-        a1 = int((sample_num-1)/2)
-        allzero = np.zeros((a1,len(seq)))
-        puls_matrix = np.vstack((allzero,seq,allzero)).reshape((-1), order='F')
-        t_axis = ts*np.arange(len(puls_matrix))
+#        a1 = int((sample_num-1)/2)
+#        a2 = int((sample_num-1)/2-1)
+#
+#        allzero_pre = np.zeros((a1,len(seq)))
+#        allzero_post = np.zeros((a2, len(seq)))
+#        pulse_matrix = np.vstack((allzero_pre,seq,allzero_post)).reshape((-1), order='F')
+#        pulse_matrix = np.concatenate((pulse_matrix,[0]))
+#        t_axis = ts*np.arange(len(pulse_matrix))
         
-        return t_axis, puls_matrix
+        
+        a0 = int((sample_num-1)/2)
+        allzeros = np.zeros((a0, len(seq)))
+        pulse_matrix = np.vstack((allzeros, seq, allzeros)).reshape((-1), order='F')
+        t_axis = ts*np.arange(len(pulse_matrix))
+        
+        
+        return t_axis, pulse_matrix
     
         
         
@@ -89,6 +102,8 @@ class transmitter():
         raise_num = int(sample_num*raise_duty)
         fall_num = int(sample_num*fall_duty)
         total = sample_num + int(0.5*(raise_num + fall_num))
+
+#        total = sample_num
         
         raising_part = np.linspace(low,high,raise_num)
         falling_part = np.linspace(high,low,fall_num)
@@ -124,17 +139,29 @@ class transmitter():
         
         return t_axis, wav
     
-    def plot_eye(self, seq, shape_len, sample_num, offset, ts=1):
+    def plot_eye(self, seq, len_shape, sample_num, offset, ts=1):
         plt.figure(1, figsize=(8,5))
-        x_range = int((len(seq) - shape_len +1)/sample_num)
-        
-        t_axis = ts*np.arange(2*sample_num)
-        
-        for i in np.arange(x_range):
+#        x_range = int((len(seq) - shape_len +1)/sample_num)
+#
+#        
+#        t_axis = ts*np.arange(2*sample_num)
+#        t_axis = ts*np.arange(step_num+1)
+#        
+#        for i in np.arange(x_range):
+#            try:
+#                plt.plot(t_axis,seq[(offset+2*sample_num*i):(offset+2*sample_num*(i+1))])
+#            except:
+#                pass
+            
+        cycle = int(((len(seq) - len_shape + 1)/sample_num/2)) #baudrate * trans_time/2
+        step_num = 2*sample_num  
+        t_axis = ts*np.arange(step_num+1)
+        for i in np.arange(cycle):
             try:
-                plt.plot(t_axis,seq[(offset+2*sample_num*i):(offset+2*sample_num*(i+1))])
+                plt.plot(t_axis,seq[(offset+i*step_num):(offset+(i+1)*step_num+1)])
             except:
                 pass
+        
         plt.title("Eye Diagram")
         plt.show()
         
@@ -159,45 +186,15 @@ class transmitter():
         
         
        
-# instance
-tr_x = transmitter(1000,1,2**5+1)
-#sequence
-s0 = tr_x.genPRBS(31, tr_x.seq_num)
-s1 = tr_x.genPRBS(7,tr_x.seq_num)
-
-#encoder
-grey_seq = tr_x.genGrey(s0,s1)
-
-#pulse shapiping
-xt_pshape, amp_pshape = tr_x.pulseShape(1,0, 0.2,0.2,tr_x.sample_num, tr_x.ts)
-
-#impulse generation
-xt_grey_impulse, amp_grey_impulse = tr_x.genImpuls(grey_seq, tr_x.sample_num, tr_x.ts)
-
-#waveform generate
-xt_pam, wav_pam = tr_x.genWavform(amp_grey_impulse, amp_pshape, tr_x.ts)
-
-#waveform with noise generate
-xt_pam_noz, wav_pam_noz = tr_x.genWaveWithNoise(wav_pam, 31, tr_x.ts)
-
-# spectrum generation
-x_fpam, f_amp_pam = tr_x.genSpectrum(wav_pam, tr_x.ts)
-plt.figure(1,figsize=(8,5))
-plt.plot(x_fpam[x_fpam<=2*tr_x.baudrate], f_amp_pam[x_fpam<=2*tr_x.baudrate])
-plt.title("spectrum")
-plt.show()
-
-# clock generation
-x_f_clock, f_amp_clock = tr_x.genCDRspectrum(wav_pam, tr_x.ts)
-plt.figure(1,figsize=(8,5))
-plt.plot(x_f_clock[x_f_clock<=2*tr_x.baudrate], f_amp_clock[x_f_clock<=2*tr_x.baudrate])
-plt.title("Clock")
-plt.show()
 
 
-'''
-tr_x.plot_spectrum(wav_pam, tr_x.ts)
-tr_x.CDR_spectrum(wav_pam, tr_x.ts)
-'''
+
+
+
+
+
+
+
+
 
 
