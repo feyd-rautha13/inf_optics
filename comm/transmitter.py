@@ -9,7 +9,7 @@ import scipy.signal as sig
 import matplotlib.pyplot as plt
 
 class Transmitter():
-    def __init__(self, BaudRate=1.25E9, trans_time= 0.001, sample_num = 33):
+    def __init__(self, BaudRate=1.25E9, points= 1000, sample_num = 33):
         '''
         Generate a sequence
         Baudrate symbol bandrate, unit symbol/s
@@ -22,8 +22,8 @@ class Transmitter():
 
         self.baudrate = BaudRate
         self.Tsym = 1/BaudRate
-        self.trans_time = trans_time
-        self.seq_num = BaudRate*trans_time
+        self.trans_time = points/BaudRate
+        self.seq_num = points
         self.sample_num = sample_num
 
 #        self.ts = 1/(self.baudrate*(self.sample_num-1))
@@ -39,7 +39,7 @@ class Transmitter():
 
         return seq
 
-    def genGrey(self, *seq):
+    def genGreyParallel(self, *seq):
         '''
         Grey code encoder
         multi paramters
@@ -66,6 +66,28 @@ class Transmitter():
             grey_code = [int(i,2) for i in grey_code]
             grey_code = [(i^(i>>1)) for i in grey_code]
             return grey_code
+    
+    def genGreySerial(self, seq,level = 4):
+        level = int(np.log2(level))
+        remainder = np.mod(len(seq),level)
+        remainder = np.zeros(remainder, dtype=np.int8)
+        seq = np.concatenate((seq, remainder))
+        cycle = np.arange(len(seq)/level)
+        
+        
+        grey_code = []
+        for i in cycle:
+            s=''
+            for j in seq[int(i*level) : int(((i+1)*level))]:
+                s += str(j)
+            grey_code.append(s)
+        
+        grey_code = [int(i,2) for i in grey_code]
+        grey_code = [(i^(i>>1)) for i in grey_code]
+        return grey_code
+            
+        
+        
     
     def genImpuls(self, seq, sample_num, ts=1):
         '''
@@ -159,4 +181,8 @@ class Transmitter():
  
         return f_xaxis[f_xaxis>=0], amp[f_xaxis>=0]
         
-        
+  
+
+
+
+

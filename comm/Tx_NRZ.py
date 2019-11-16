@@ -12,17 +12,21 @@ NRZ
 from transmitter import Transmitter
 import matplotlib.pyplot as plt
 
-baudrate = 1.25E9
-trans_time = 1E-6
+baudrate = 2E9
+run_point = 3E3
 samples = 2**5+1
-snr = 30
 
 
-tr = Transmitter(baudrate,trans_time, samples)
+snr = 31
+n=1
+
+
+tr = Transmitter(baudrate,run_point, samples)
 # PRBS sequence
-s0 = tr.genPRBS(31, baudrate*trans_time)
+s0 = tr.genPRBS(31, run_point)
+s1 = tr.genGreySerial(s0, 2**n)
 # PRBS impluse
-nrz_tx, nrz_pulse = tr.genImpuls(s0, samples, tr.ts)
+nrz_tx, nrz_pulse = tr.genImpuls(s1, samples, tr.ts)
 #pulse shape
 pshape_tx, pshape = tr.pulseShape(1,0,0.4,0.4,samples, tr.ts)
 #PRBS waveform
