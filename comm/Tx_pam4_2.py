@@ -11,30 +11,29 @@ from scipy import signal
 
 n=1
 baudrate = 1.25E9
-run_point = 10000*n
+run_point = 1000*n
 samples = 2**5+1
 
 
-snr = 3
-
+snr = 30
 
 
 #-3 instance
 tr_x = Transmitter(baudrate,run_point,samples)
 #sequence
-s0 = tr_x.genPRBS(31, run_point)
+s0 = tr_x.genPRBS(7, run_point)
 
 #-2 encoder
 grey_seq = tr_x.genGreySerial(s0,2**n)
 '''
 plt.plot(grey_seq[:100])
-plt.plot(grey_seq[900:])
+plt.plot(grey_seq[9900:])
 '''
 
 #grey_seq = tr_x.genGrey(s0,s1)
 
 #-1 pulse shapiping time domain
-xt_pshape, amp_pshape = tr_x.pulseShape(1,0, 0.25,0.25,tr_x.sample_num, tr_x.ts)
+xt_pshape, amp_pshape = tr_x.pulseShape(1,0, 0.25,0.25,33, tr_x.ts)
 '''
 plt.plot(amp_pshape)
 '''
@@ -46,8 +45,8 @@ xt_pam, wav_pam = tr_x.genWavform(amp_grey_impulse, amp_pshape, tr_x.ts)
 
 
 '''
-plt.plot(wav_pam[:99])
-plt.plot(wav_pam[32000:])
+plt.plot(wav_pam[:2000])
+plt.plot(wav_pam[200:400],'o')
 '''
 
 #2 waveform with noise generate
@@ -95,14 +94,14 @@ plt.show()
 # sample
 
 sample_r = tr_x.sampleRx(amp_r_wav, samples, 66)
-decision_out = tr_x.decisionNRzRx(sample_r, 0.50)
+#decision_out = tr_x.decisionNRzRx(sample_r, 0.50)
 '''
 plt.plot(grey_seq[:100])
 plt.plot(sample_r[:100])
 plt.plot(decision_out[:100])
 '''
 
-ber = tr_x.BERcount(grey_seq, decision_out)
+#ber = tr_x.BERcount(grey_seq, decision_out)
 
 
     
