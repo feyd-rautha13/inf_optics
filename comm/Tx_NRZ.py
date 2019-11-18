@@ -14,13 +14,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.signal as sig
 
-n=1
+n=4
 baudrate = 2E9
 run_point = 1000*n
 samples = 2**6+1
 
 
-snr = 22
+snr = 51
 
 
 

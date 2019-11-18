@@ -85,8 +85,6 @@ class Transmitter():
         grey_code = [int(i,2) for i in grey_code]
         grey_code = [(i^(i>>1)) for i in grey_code]
         return grey_code
-            
-        
         
     
     def genImpuls(self, seq, sample_num, ts=1):
@@ -100,9 +98,7 @@ class Transmitter():
         pulse_matrix = np.vstack((allzeros, seq, allzeros)).reshape((-1), order='F')
         t_axis = ts*np.arange(len(pulse_matrix))
         
-        
         return t_axis, pulse_matrix
-    
         
         
     def pulseShape(self,high=1,low=0,raise_duty=0.15,fall_duty=0.15,sample_num=100,ts=1):
@@ -181,7 +177,38 @@ class Transmitter():
  
         return f_xaxis[f_xaxis>=0], amp[f_xaxis>=0]
         
-  
+    def matchFilter(self, pulse_shape, ts=1):
+        matchfilter = np.flipud(pulse_shape) #reverse
+        matchfilter = np.conjugate(matchfilter) #conjugate
+        t_axis = ts*np.arange(len(matchfilter))
+        
+        return t_axis, matchfilter
+    
+    def genRxWaveform(self, seq, matchfilter, ts=1):
+        wav = np.convolve(seq, matchfilter)
+        
+        t_axis = ts*np.arange(len(wav))   
+        return t_axis, wav
+    
+    def sampleRx(self, seq, lenmatch, cycle, offset):
+        seq_len = int(len(seq) + 2 - 2*lenmatch)
+        seq = seq[:seq_len]
+        seq = seq[int(offset)::int(cycle)]
+        
+        return seq/np.max(seq)
+    
+    def decisionNRzRx(self, seq, level=0.51):
+        seq = [1 if i>=level else 0 for i in seq]
+        return np.array(seq)
+    
+    def BERcount(self, txseq, rxseq):
+        tx = np.array(txseq)
+        rx = np.array(rxseq)
+        errorlist = tx[:np.min(len(tx),len(rx))]==rx[:np.min(len(tx),len(rx))]
+        num = len(np.min(len(tx),len(rx)))
+        errorlist_num = sum(errorlist==False) 
+        
+        return errorlist_num/num
 
 
 
