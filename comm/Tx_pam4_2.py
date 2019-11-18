@@ -5,17 +5,17 @@ Created on Sat Nov 16 15:57:13 2019
 @author: Luna
 """
 
-from transmitter import Transmitter
+from transmitter2 import Transmitter
 import matplotlib.pyplot as plt
 from scipy import signal
 
 n=1
-baudrate = 1000
+baudrate = 1.25E9
 run_point = 10000*n
 samples = 2**5+1
 
 
-snr = 30
+snr = 3
 
 
 
@@ -28,6 +28,7 @@ s0 = tr_x.genPRBS(31, run_point)
 grey_seq = tr_x.genGreySerial(s0,2**n)
 '''
 plt.plot(grey_seq[:100])
+plt.plot(grey_seq[900:])
 '''
 
 #grey_seq = tr_x.genGrey(s0,s1)
@@ -42,11 +43,11 @@ xt_grey_impulse, amp_grey_impulse = tr_x.genImpuls(grey_seq, tr_x.sample_num, tr
 
 #1 waveform generate time domain
 xt_pam, wav_pam = tr_x.genWavform(amp_grey_impulse, amp_pshape, tr_x.ts)
-wav_pam 
 
 
 '''
 plt.plot(wav_pam[:99])
+plt.plot(wav_pam[32000:])
 '''
 
 #2 waveform with noise generate
@@ -82,7 +83,7 @@ xt_r_wav, amp_r_wav = tr_x.genRxWaveform(wav_pam_noz, amp_match_filter, tr_x.ts)
 plt.plot(amp_r_wav[:99])
 '''
 # clock generation
-x_f_clock, f_amp_clock = tr_x.genCDRspectrum(wav_pam_noz, tr_x.ts)
+#x_f_clock, f_amp_clock = tr_x.genCDRspectrum(wav_pam_noz, tr_x.ts)
 
 '''
 plt.figure(figsize=(8,5))
@@ -93,9 +94,7 @@ plt.show()
 
 # sample
 
-sample_r = tr_x.sampleRx(amp_r_wav, len(amp_match_filter), samples, 66)
-
-
+sample_r = tr_x.sampleRx(amp_r_wav, samples, 66)
 decision_out = tr_x.decisionNRzRx(sample_r, 0.50)
 '''
 plt.plot(grey_seq[:100])
@@ -103,17 +102,10 @@ plt.plot(sample_r[:100])
 plt.plot(decision_out[:100])
 '''
 
-
-#ber = tr_x.BERcount(grey_seq, decision_out)
-
+ber = tr_x.BERcount(grey_seq, decision_out)
 
 
-
-
-
-
-
-
+    
 
 
 
