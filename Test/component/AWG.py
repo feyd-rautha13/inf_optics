@@ -280,4 +280,3 @@ class AWG(object):
         '''
         index = (np.abs(array - value)).argmin()
         return index
-    
