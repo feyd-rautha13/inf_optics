@@ -421,7 +421,7 @@ class QSFPDD():
         0: PRBS31Q, 2: PRBS23Q, 4:PRBS15Q, 6:PRBS13Q, 8:PRBS9Q, 10:PRBS7Q
         12: SSPRQ
         '''
-        pattern = pattern*256 + pattern
+        pattern = pattern<<4 + pattern
         self.reg_set(0x13, 156, pattern)
         self.reg_set(0x13, 157, pattern)
         self.reg_set(0x13, 158, pattern)
@@ -437,7 +437,7 @@ class QSFPDD():
         12: SSPRQ
         '''
 
-        pattern = pattern*256 + pattern
+        pattern = pattern<<4 + pattern
         self.reg_set(0x13, 148, pattern)
         self.reg_set(0x13, 149, pattern)
         self.reg_set(0x13, 150, pattern)
