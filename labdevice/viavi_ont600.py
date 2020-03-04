@@ -15,7 +15,11 @@ __author__ = 'Sizhan Liu'
 __version__ = "1.0"
 
 import sys
+<<<<<<< HEAD
+interface_path = '/home/whhw/Desktop/AutoTest/lib/inf_optics/interface'
+=======
 interface_path = 'D:\\work\\code\\python\\inf_optics\\interface'
+>>>>>>> 5d90efc77abdfc51846e03089028446e98502d6c
 sys.path.append(interface_path)
 
 from Telnetinterface import telnet
@@ -62,6 +66,11 @@ class Viavi_ONT(object):
     
         def close(self):
             telnet.close(self)
+<<<<<<< HEAD
+    #############################################################
+        deviceID   =   lambda self : self.query('*IDN?')
+=======
+>>>>>>> 5d90efc77abdfc51846e03089028446e98502d6c
         
         #both mode
         test_abor       =   lambda self : self.write(':ABOR;*WAI')
@@ -85,9 +94,18 @@ class Viavi_ONT(object):
         traffic_phy_unmute_single_lane  =   lambda self,lane:self.write(':SOUR:DATA:TEL:PHYS:PAM4:ALL:MUTE:STAT:DATA {}, OFF'.format(lane))
         
         
+<<<<<<< HEAD
+        
         #PCS layer
         traffic_pcs_RxBerEstimate       =   lambda self: self.query(':PCS:BEST:SUM:EST:CURR?')
         traffic_pcs_uncorrectable_codeword_error    = lambda  self : self.query(':PCS:FEC:SUM:ECO:FEC:UBLK?')
+        traffic_pcs_lambdaGroups_BER =  lambda self : [float(i) for i in self.query(':PCS:BEST:ALL:EST:CURR:LGR?').split(',')[1:]]
+        
+=======
+        #PCS layer
+        traffic_pcs_RxBerEstimate       =   lambda self: self.query(':PCS:BEST:SUM:EST:CURR?')
+        traffic_pcs_uncorrectable_codeword_error    = lambda  self : self.query(':PCS:FEC:SUM:ECO:FEC:UBLK?')
+>>>>>>> 5d90efc77abdfc51846e03089028446e98502d6c
         
         
 
