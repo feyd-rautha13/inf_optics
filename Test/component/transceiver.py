@@ -427,7 +427,7 @@ class QSFPDD():
         self.reg_set(0x13, 158, pattern)
         self.reg_set(0x13, 159, pattern)
         
-        self.reg_set(0x13, 152, 0x0F)
+        self.reg_set(0x13, 152, 0xFF)
     
     def ModHostPG_CMIS4(self, pattern = 6):
         self.dev.clear_buffer()
@@ -444,6 +444,52 @@ class QSFPDD():
         self.reg_set(0x13, 151, pattern)
         
         self.reg_set(0x13, 144, 0xFF)
+
+    def ModMediaCheckerSet_CMIS4(self, pattern = 6):
+
+        self.dev_clear_buffer()
+        '''
+        Pattern generator.
+        0: PRBS31Q, 2: PRBS23Q, 4:PRBS15Q, 6:PRBS13Q, 8:PRBS9Q, 10:PRBS7Q
+        12: SSPRQ
+        '''
+
+        pattern = pattern<<4 + pattern
+        self.reg_set(0x13, 164, pattern)
+        self.reg_set(0x13, 165, pattern)
+        self.reg_set(0x13, 166, pattern)
+        self.reg_set(0x13, 167, pattern)
+
+        #Enable checker
+        self.reg_set(0x13, 168, 0xFF)
+
+##CMIS4.0 Table 8-93 Table 8-94
+    def ModeMediaBER_CMIS4(self):
+
+        self.dev_clear_buffer()
+
+        #Enable selector
+        self.reg_set(0x14, 128, 1)
+
+        data = self.reg_get(0x14, 208, 8 )
+
+        #BER calculation
+        s0 = (data[0]&0xF8)>>3
+        m0 = (data[0]&(0x7))<<8 + data[1]
+
+        s1 = (data[2]&0xF8)>>3
+        m1 = (data[2]&(0x7))<<8 + data[3]
+
+        s2 = (data[4]&0xF8)>>3
+        m2 = (data[4]&(0x7))<<8 + data[5]
+
+        s3 = (data[6]&0xF8)>>3
+        m3 = (data[6]&(0x7))<<8 + data[7]
+
+
+        return m0*(10**(s0-24)), m1*(10**(s1-24)), m2*(10**(s2-24)), m3*(10**(s3-24))
+
+
         
 class QSFP28():
     '''
