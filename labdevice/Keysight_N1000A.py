@@ -19,7 +19,7 @@ import pylab as pl
 from TCPinterface import TCP
 
 
-ip = '192.168.48.212'
+ip = '192.168.48.57'
 port = 5025
 
 ############### --Connectiong -- ###############
@@ -104,5 +104,22 @@ class N1000A(TCP):
         self.write("*CLS\n")
     
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
         
