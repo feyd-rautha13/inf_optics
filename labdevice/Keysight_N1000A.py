@@ -8,7 +8,7 @@ __version__ = "1.0"
 Keysight N1000A Chasis interface
 '''
 
-path1 =  r'D:\work\code\python\inf_optics\interface'
+path1 =  r'/home/whhw/Desktop/AutoTest/inf_optics/interface'
 
 import sys
 sys.path.append(path1)
@@ -19,7 +19,7 @@ import pylab as pl
 from TCPinterface import TCP
 
 
-ip = '192.168.48.212'
+ip = '192.168.48.57'
 port = 5025
 
 ############### --Connectiong -- ###############
@@ -103,6 +103,38 @@ class N1000A(TCP):
     def CLS(self):
         self.write("*CLS\n")
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         
         
