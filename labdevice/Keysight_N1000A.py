@@ -8,7 +8,7 @@ __version__ = "1.0"
 Keysight N1000A Chasis interface
 '''
 
-path1 =  r'D:\work\code\python\inf_optics\interface'
+path1 =  r'/home/whhw/Desktop/AutoTest/inf_optics/interface'
 
 import sys
 sys.path.append(path1)
@@ -121,5 +121,20 @@ class N1000A(TCP):
 
 
 
-     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
         
